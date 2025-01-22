@@ -1,0 +1,147 @@
+---
+config:
+  theme: neo
+  look: neo
+  layout: dagre
+---
+flowchart TD
+ subgraph ValueChainCrew["Value Chain Crew"]
+        A["Retrieval Agent"]
+        B["Website Collector Agent"]        
+        C["Industry Research Agent"]
+        D["Data Analyst Agent"]
+        E["Value Chain Specialist Agent"]
+        F["Editorial Agent"]
+        A1["<b>[Retrieval Task]</b><br><br>Perform targeted web searches on industry segments, players, activities, volumes, and commercial relationships. Collect and organize relevant URLs for each research objective."]
+        B1["<b>[Website Collection Task]</b><br><br>Collect content from provided URLs, store in vector database, ensure proper indexing, and share with other agents."]
+        C1["<b>[Industry Research Task]</b><br><br>Analyze collected data to research industry segments, players, activities, and volumes. Create comprehensive profiles and document findings."]
+        D1["<b>[Data Analysis Task]</b><br><br>Extract quantitative insights from research data, create statistical tables, analyze trends and patterns in industry dynamics."]
+        E1["<b>[Value Chain Analysis Task]</b><br><br>Map and describe industry value chain, document commercial relationships, business models, bottlenecks, and challenges."]
+        F1["<b>[Editorial Task]</b><br><br>Compile and refine all content into cohesive professional report with clear structure, proper formatting, and integrated data."]
+  end
+ subgraph SupplySignalsCrew["Supply Signals Crew"]
+        G["Retrieval Agent"]
+        H["Website Collector Agent"]
+        I["Market Intelligence Agent"]
+        J["Disruption Analyst Agent"]
+        K["Supply Distribution Analyst Agent"]
+        L["Trend Analyst Agent"]
+        M["Insight Specialist Agent"]
+        N["Editorial Agent"]
+        G1["<b>[Retrieval Task]</b><br><br>Search for market intelligence, disruptions, supply distribution, and trends."]
+        H1["<b>[Website Collection Task]</b><br><br>Store URLs content in vector DB."]
+        I1["<b>[Market Intelligence Analysis]</b><br><br>Analyze players size, products, revenues, M&amp;A, and investments."]
+        J1["<b>[Disruption Analysis]</b><br><br>Identify new entrants and analyze innovations."]
+        K1["<b>[Supply Distribution Analysis]</b><br><br>Map supply distribution and channels."]
+        L1["<b>[Trend Analysis]</b><br><br>Analyze industry trends and regulatory changes."]
+        M1["<b>[Insight Generation]</b><br><br>Synthesize analyses and identify supply changes."]
+        N1["<b>[Editorial Task]</b><br><br>Compile final supply signals report."]
+  end
+ subgraph DemandSignalsCrew["Demand Signals Crew"]
+        DA["Retrieval Agent"]
+        DB["Website Collector Agent"]
+        DC["Customer Mapping Specialist Agent"]
+        DD["Demand Analysis Specialist Agent"]
+        DE["Customer Challenges Analyst Agent"]
+        DF["Consumer Behavior Analyst Agent"]
+        DG["Opportunity Identification Specialist Agent"]
+        DH["Consumer Trends Analyst Agent"]
+        DI["Demand Insights Specialist Agent"]
+        DJ["Editorial Agent"]
+        DA1["<b>[Retrieval Task]</b><br><br>Perform exhaustive web searches on customer behaviors, demand, trends, and opportunities. Organize relevant URLs for analysis."]
+        DB1["<b>[Website Collection Task]</b><br><br>Store and index content from provided URLs into vector database for analysis agents."]
+        DC1["<b>[Customer Mapping Task]</b><br><br>Map the customers of key players, detailing B2C and B2B segments with profiles and examples."]
+        DD1["<b>[Demand Analysis Task]</b><br><br>Analyze demand trends for products/services, identify unmet demands, and explain changes."]
+        DE1["<b>[Customer Challenges Task]</b><br><br>Detail challenges, pains, and expectations of customers of industry players."]
+        DF1["<b>[Consumer Behavior Task]</b><br><br>Analyze behavioral changes, emerging needs, and consumption patterns."]
+        DG1["<b>[Opportunity Identification Task]</b><br><br>Identify and detail market opportunities based on customer challenges and trends."]
+        DH1["<b>[Trend Analysis Task]</b><br><br>Identify consumer trends, explain their drivers, and analyze their implications."]
+        DI1["<b>[Insight Generation Task]</b><br><br>Synthesize all analyses into comprehensive demand insights."]
+        DJ1["<b>[Editorial Task]</b><br><br>Compile all outputs into a cohesive, professional demand signals report."]
+  end
+ subgraph WhitespaceCrew["Whitespace Identification Crew"]
+        WA["Retrieval Agent"]
+        WB["Website Collector Agent"]
+        WC["Market Niches Analyst Agent"]
+        WD["Opportunity Identification Specialist Agent"]
+        WE["Whitespaces Identification Specialist Agent"]
+        WF["Strategic Insights Specialist Agent"]
+        WG["Editorial Agent"]
+        WA1["<b>[Retrieval Task]</b><br><br>Perform targeted searches to identify emerging niches, opportunities, and potential whitespaces."]
+        WB1["<b>[Website Collection Task]</b><br><br>Store content from relevant URLs into vector database, ensuring proper indexing."]
+        WC1["<b>[Market Niches Analysis Task]</b><br><br>Analyze supply and demand signals to identify emerging and fragmented niches."]
+        WD1["<b>[Opportunity Identification Task]</b><br><br>Detail business opportunities at the intersection of supply and demand."]
+        WE1["<b>[Whitespaces Identification Task]</b><br><br>Identify whitespaces with high potential and positive signals."]
+        WF1["<b>[Insight Generation Task]</b><br><br>Synthesize analyses to provide comprehensive insights on whitespaces."]
+        WG1["<b>[Editorial Task]</b><br><br>Compile a professional report detailing whitespaces and opportunities."]
+  end
+    A1 --> A
+    B1 --> B
+    C1 --> C
+    D1 --> D
+    E1 --> E
+    F1 --> F
+    G1 --> G
+    H1 --> H
+    I1 --> I
+    J1 --> J
+    K1 --> K
+    L1 --> L
+    M1 --> M
+    N1 --> N
+    DA1 --> DA
+    DB1 --> DB
+    DC1 --> DC
+    DD1 --> DD
+    DE1 --> DE
+    DF1 --> DF
+    DG1 --> DG
+    DH1 --> DH
+    DI1 --> DI
+    DJ1 --> DJ
+    WA1 --> WA
+    WB1 --> WB
+    WC1 --> WC
+    WD1 --> WD
+    WE1 --> WE
+    WF1 --> WF
+    WG1 --> WG
+    ValueChainCrew --> SupplySignalsCrew & DemandSignalsCrew
+    SupplySignalsCrew --> WhitespaceCrew
+    DemandSignalsCrew --> WhitespaceCrew
+     B:::agent
+     A:::agent
+     C:::agent
+     D:::agent
+     E:::agent
+     F:::agent
+     H:::agent
+     G:::agent
+     I:::agent
+     J:::agent
+     K:::agent
+     L:::agent
+     M:::agent
+     N:::agent
+     DA:::agent
+     DB:::agent
+     DC:::agent
+     DD:::agent
+     DE:::agent
+     DF:::agent
+     DG:::agent
+     DH:::agent
+     DI:::agent
+     DJ:::agent
+     WA:::agent
+     WB:::agent
+     WC:::agent
+     WD:::agent
+     WE:::agent
+     WF:::agent
+     WG:::agent
+    classDef valuechaincrewstyle fill:#E5F7FF,stroke:#1C7AB9,stroke-width:2px
+    classDef supplycrewstyle fill:#FFFAE6,stroke:#FFB74D,stroke-width:2px
+    classDef demandcrewstyle fill:#F1FFE6,stroke:#8BC34A,stroke-width:2px
+    classDef whitespacestyle fill:#FDE9F3,stroke:#EC407A,stroke-width:2px
+    classDef agent fill:#F4F5FF,stroke:#333,stroke-width:2px,rx:5px,ry:5px,shadow:0px 4px 6px

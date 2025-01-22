@@ -1,0 +1,172 @@
+consolidated_search_task_demand:
+  description: >
+    Objective: To gather all necessary data from various sources using the WebSearch Tool and APIs for all demand analysis tasks.
+    Steps:
+      1. Identify the final customers (B2B and B2C) in the value chain.
+      2. Gather data on the current demand behavior, including the number of consumers and whether the number of customers is growing or declining.
+      3. Collect data on the main challenges and pains faced by customers.
+      4. Gather data from social media and other online platforms for social listening.
+      5. Collect data on ongoing behavior changes that impact relationships and demand in the value chain.
+      6. Gather data on emerging consumption needs in the value chain.
+      7. Save all collected data in a vector database.
+  expected_output: >
+    - Comprehensive dataset covering all required information for subsequent analysis tasks.
+    - Organized and well-structured data stored in a vector database.
+  agent: retrieval_agent
+
+final_customers_identification:
+  description: >
+    Objective: To identify the final customers (B2B and B2C) in the value chain anlysis.
+    Steps:
+      1. Categorize the customers into B2B and B2C segments.
+      2. Analyze the characteristics and demographics of these customers.
+
+    [Value Chain Analysis]
+    {value_chain_analysis}
+  expected_output: >
+    - **Report Title:**
+      - Final Customers Identification
+    - List of final customers categorized into B2B and B2C segments.
+    - Detailed profiles of customer characteristics and demographics.
+  agent: analysis_agent
+
+current_demand_behavior_analysis:
+  description: >
+    Objective: To analyze the current demand behavior, including the number of consumers (individuals and businesses) and whether the number of customers is growing or declining.
+    Steps:
+      1. Use the full content of the following reports from your context and synthesize information collected:
+        - Final Customers Identification
+      2. Analyze the number of individual and business consumers.
+      3. Evaluate the growth or decline in the number of customers.
+
+    [Value Chain Analysis]
+    {value_chain_analysis}
+  expected_output: >
+    _ **Report Title:**
+      - Current Demand Behavior Analysis
+    - Report on the number of individual and business consumers.
+    - Table showing the growth/decline in the number of customers.
+  agent: analysis_agent
+  context:
+    - final_customers_identification
+
+customer_challenges_pains_analysis:
+  description: >
+    Objective: To identify the main challenges and pains faced by the customers in the value chain analysis.
+    Steps:
+      1. Use the full content of the following reports from your context and synthesize information collected:
+        - Final Customers Identification
+        - Current Demand Behavior Analysis
+      2. Analyze data on the challenges and pains faced by customers.
+      3. Categorize and prioritize these challenges and pains.
+      4. Correlate these challenges and pains with value chain analysis.
+
+    [Value Chain Analysis]
+    {value_chain_analysis}
+  expected_output: >
+    - **Report Title:**
+      - Customer Challenges and Pains Analysis
+    - List of main challenges and pains faced by customers.
+    - Prioritized table of challenges and pains.
+    - Correlation of challenges and pains with value chain analysis.
+  agent: analysis_agent
+  context:
+    - final_customers_identification
+    - current_demand_behavior_analysis
+
+social_listening_analysis:
+  description: >
+    Objective: To understand what people are currently saying about the topics related with the value chain analysis through social listening.
+    Steps:
+      1. Analyze the sentiment and key themes from the collected data.
+
+    [Value Chain Analysis]
+    {value_chain_analysis}
+  expected_output: >
+    - **Report Title:**
+      - Social Listening Analysis
+    - Report on current discussions and sentiments about related topics with the value chain.
+    - Summary of key themes and insights from social media.
+  agent: analysis_agent
+
+current_pains_analysis:
+  description: >
+    Objective: To identify the unmet needs and pains of customers today.
+    Steps:
+      1. Use the full content of the following reports from your context and synthesize information collected:
+        - Final Customers Identification
+        - Customer Challenges and Pains Analysis
+        - Social Listening Analysis
+        - Current Demand Behavior Analysis
+      2. Identify the unmet needs and pains of customers.
+
+  expected_output: >
+    - Consolidated report on unmet needs and pains.
+    - Summary table of key findings.
+  agent: synthesis_agent
+  context:
+    - final_customers_identification
+    - customer_challenges_pains_analysis
+    - social_listening_analysis
+    - current_demand_behavior_analysis
+
+current_behavior_changes_analysis:
+  description: >
+    Objective: To identify ongoing behavior changes that impact relationships and demand in the value chain analysis.
+    Steps:
+      1. Use the full content of the following reports from your context and synthesize information collected:
+        - Final Customers Identification
+        - Current Demand Behavior Analysis
+      2. Analyze data on current behavior changes.
+      3. Evaluate the impact of these changes on the value chain.
+
+    [Value Chain Analysis]
+    {value_chain_analysis}
+  expected_output: >
+    - **Report Title:**
+      - Current Behavior Changes Analysis
+    - Report on ongoing behavior changes.
+    - Table of the impact of these changes on the value chain.
+  agent: analysis_agent
+  context:
+    - final_customers_identification
+    - current_demand_behavior_analysis
+
+emerging_consumption_needs_analysis:
+  description: >
+    Objective: To identify the impact of the behavior changes to customer's consumption behavior and emerging consumption needs.
+    Steps:
+      1. Use the full content of the following reports from your context and synthesize information collected:
+        - Current Behavior Changes Analysis
+      2. Analyze the impact of behavior changes on consumption behavior influencing the value chain analysis.
+      3. Identify emerging consumption needs.
+
+    [Value Chain Analysis]
+    {value_chain_analysis}
+  expected_output: >
+    - **Report Title:**
+      - Emerging Consumption Needs Analysis
+    - List of emerging consumption needs.
+    - Table of potential impact of these needs.
+  agent: analysis_agent
+  context:
+    - current_behavior_changes_analysis
+
+consumption_trends_analysis:
+  description: >
+    Objective: To identify the behavior change signals influencing the value chain.
+    Steps:
+      1. Use the full content of the following reports from your context and synthesize information collected:
+        - Current Behavior Changes Analysis
+        - Emerging Consumption Needs Analysis
+      2. Identify the behavior change signals influencing the value chain analysis.
+
+    [Value Chain Analysis]
+    {value_chain_analysis}
+  expected_output: >
+    - Consolidated report on behavior change signals.
+    - Summary table of key findings.
+  agent: synthesis_agent
+  context:
+    - current_behavior_changes_analysis
+    - emerging_consumption_needs_analysis

@@ -1,0 +1,303 @@
+retrieval_task:
+  description: >
+    Use advanced search tools to perform exhaustive web searches on the {target_industry} industry in the {target_region} region.
+    Break down the search into multiple specific queries, each targeting one or more of the following objectives of the "Understand Demand Signals":
+
+    - **Objective 1:** Map the customers of the main players identified in the value chain analysis, detailing whether they are final consumers (B2C) or other businesses (B2B).
+    - **Objective 2:** Describe the current demand for the products and services offered by the main players. Determine if demand is growing, stagnant, or decreasing, and explain the main reasons behind these changes. Identify any unmet demands in the market.
+    - **Objective 3:** Detail the main challenges, pains, and expectations of the customers of the players identified in the value chain analysis.
+    - **Objective 4:** Map the main behavioral changes among consumers and identify emerging consumption needs.
+    - **Objective 5:** Identify and detail the main opportunities that exist considering the challenges and pains of customers, both individuals (B2C) and companies (B2B).
+    - **Objective 6:** Identify and detail the main trends from the consumers' perspective.
+
+    **For each objective:**
+
+    - Formulate specific search queries that focus on the objective.
+    - Perform the searches and collect a list of all top five relevant URLs/links.
+    - Ensure that the collected links comprehensively cover the objective.
+    - Document the search queries used for each objective.
+
+    **Provide a structured list of URLs/links organized by objective, along with the search queries used.**
+
+    [Value Chain Analysis]
+    {value_chain_analysis}
+
+  expected_output: >
+    A structured document containing:
+
+    - **Search Queries and Results:**
+      - For each objective:
+        - The search queries used.
+        - A list of all top five relevant URLs/links.
+        - Brief annotations on the relevance of each link to the objective.
+
+  agent: retrieval_agent
+
+website_collection_task:
+  description: >
+    Use the WebsiteSearchTool to collect the content from the provided URLs/links supplied by the Retrieval Agent. 
+    Store the content in a vector database, ensuring it is properly indexed and accessible. 
+    Provide the list of URLs to the subsequent analysis agents:
+    - Customer Mapping Specialist
+    - Demand Analysis Specialist
+    - Customer Challenges Analyst
+    - Consumer Behavior Analyst
+    - Opportunity Identification Specialist
+    - Trend Analyst
+
+  expected_output: >
+    - Confirmation that all provided URLs/links have been processed and their content stored in the vector database.
+    - The list of URLs/links sent to all analysis agents.
+
+  agent: website_collector_agent
+
+customer_mapping_task:
+  description: >
+    Analyze all relevant links collected by the Web Search Specialist, your own knowledge base, and the value chain analysis and the content from the vector database,
+    map out the customers of the main players. 
+    Detail whether they are final consumers (B2C) or other businesses (B2B). 
+    Provide examples and profiles of key customer segments.
+
+    Delve into each section of the report with granular, specific details, exploring the intricate aspects of the {target_industry} in the {target_region} region.
+
+    [Value Chain Analysis]
+    {value_chain_analysis}
+  expected_output: >
+    A comprehensive mapping of customers including:
+    - Identification of customer segments for each main player.
+    - Classification as B2C or B2B.
+    - Detailed profiles and examples of key customer groups.
+
+    Make each section rich in details, long and verbose.
+
+  agent: customer_mapping_agent
+  context:
+    - retrieval_task
+
+demand_analysis_task:
+  description: >
+    Using all relevant links collected by the Web Search Specialist, analyze the current demand for the products and services offered by the main players identified in the value chain analysis. 
+    Determine if demand is growing, stagnant, or decreasing. 
+    Explain the main reasons behind these changes, including market trends, economic factors, or shifts in consumer behavior. 
+    Identify any unmet demands in the market.
+
+    Delve into each section of the report with granular, specific details, exploring the intricate aspects of the {target_industry} in the {target_region} region.
+
+    [Value Chain Analysis]
+    {value_chain_analysis}
+  expected_output: >
+    A detailed report including:
+    - Analysis of demand trends for each product/service.
+    - Reasons behind demand changes.
+    - Identification of unmet demands in the market.
+    - Supporting data and references.
+
+    Make each section rich in details, long and verbose.
+
+  agent: demand_analysis_agent
+  context:
+    - retrieval_task
+
+customer_challenges_analysis_task:
+  description: >
+    Using all relevant links collected by the Web Search Specialist, detail the main challenges, pains, and expectations of the customers of the players identified in the value chain analysis. 
+    Include insights into customer satisfaction levels, common complaints, and desired improvements.
+    Identify unmet demands, main challenges, pains, and expectations of the clients (both B2C and B2B) of the key industry players. 
+
+    Delve into each section of the report with granular, specific details, exploring the intricate aspects of the {target_industry} in the {target_region} region.
+
+    [Value Chain Analysis]
+    {value_chain_analysis}
+  expected_output: >
+    An analysis report covering:
+    - Detailed description of Key challenges and pains experienced by customers.
+    - Detailed description of Expectations and demands from customers.
+    - Impact of these factors on customer loyalty and purchasing behavior.
+    - Supporting data and references.
+
+    Make each section rich in details, long and verbose.
+
+  agent: customer_challenges_analyst_agent
+  context:
+    - retrieval_task
+
+consumer_behavior_analysis_task:
+  description: >
+    Using all relevant links collected by the Web Search Specialist, map the main behavioral changes among consumers in the {target_industry}. 
+    Identify emerging consumption needs and shifts in preferences. 
+    Analyze factors driving these changes, such as technological advancements, cultural shifts, or economic conditions.
+
+    Delve into each section of the report with granular, specific details, exploring the intricate aspects of the {target_industry} in the {target_region} region.
+
+  expected_output: >
+    A comprehensive analysis including:
+    - Description of current consumer behavior trends.
+    - Identification of emerging consumption needs.
+    - Analysis of drivers behind behavioral changes.
+    - Supporting data and references.
+
+    Make each section rich in details, long and verbose.
+
+  agent: consumer_behavior_analyst_agent
+  context:
+    - retrieval_task
+
+trend_analysis_task:
+  description: >
+    Using all relevant links collected by the Web Search Specialist, identify and detail the main trends from the consumers' perspective in the {target_industry} in the {target_region} region.
+    Assess the current demand for the products and services offered by the industry players. 
+    Determine whether demand is growing, stagnant, or decreasing, and analyze the main reasons behind these changes.
+    Discuss which trends are gaining momentum and which are declining. 
+    Identify and describe the main changes in consumer behavior and emerging consumption needs, providing detailed descriptions of trends from the consumers' perspective.
+    Analyze how these trends influence consumer expectations and demand.
+
+    Delve into each section of the report with granular, specific details, exploring the intricate aspects of the {target_industry} in the {target_region} region.
+
+  expected_output: >
+    A trends report including:
+    - Identification of major consumer trends.
+    - Analysis of current demand trends for each product and service.
+    - Explanations of whether demand is growing, stagnant, or decreasing.
+    - Identification of the main reasons behind these demand changes.
+    - Detailed descriptions of changes in consumer behavior and emerging consumption needs.
+    - Impact of trends on consumer behavior and market demand.
+    - Analysis of how these trends could impact the industry.
+    - Incorporation of insights from the value chain mapping report.
+    - Supporting data and references.
+
+    Make each section rich in details, long and verbose.
+
+  agent: trend_analyst_agent
+  context:
+    - retrieval_task
+
+opportunity_identification_task:
+  description: >
+    Based on the challenges and pains identified among customers (both B2C and B2B), and utilizing insights from previous analyses and using all relevant links collected by the Web Search Specialist, 
+    identify and detail the main opportunities for businesses in the {target_industry} in the {target_region} region.. 
+    Consider areas where unmet demands or emerging needs can be addressed. 
+    Provide recommendations for potential solutions or innovations.
+    Provide detailed insights into the demand side's challenges and opportunities.
+
+    Delve into each section of the report with granular, specific details, exploring the intricate aspects of the {target_industry} in the {target_region} region.
+
+  expected_output: >
+    A report detailing:
+    - Key opportunities in the market.
+    - Potential solutions or products to address customer challenges.
+    - Analysis of the feasibility and potential impact of these opportunities.
+    - Supporting data and references.
+
+    Make each section rich in details, long and verbose.
+
+  agent: opportunity_identification_agent
+  context:
+    - retrieval_task
+    - customer_mapping_task
+    - demand_analysis_task
+    - customer_challenges_analysis_task
+    - consumer_behavior_analysis_task
+    - trend_analysis_task
+
+insight_generation_task:
+  description: >
+    Synthesize analyses from: 
+    - Customer Mapping
+    - Demand Analysis
+    - Customer Challenges Analysis
+    - Consumer Behavior Analysis
+    - Opportunity Identification
+    - Trend Analysis tasks. 
+    
+    Provide comprehensive insights into the demand side of the {target_industry} in the {target_region} region.
+    Highlight key findings, patterns, and strategic implications.
+
+    Delve into each section of the report with granular, specific details, exploring the intricate aspects of the {target_industry} in the {target_region} region.
+
+  expected_output: >
+    An insights report including:
+    - Summary of key findings from all analyses.
+    - Identification of overarching themes and patterns.
+    - Strategic implications and recommendations for businesses.
+    - Supporting data and references.
+
+    Make each section rich in details, long and verbose.
+
+  agent: insight_specialist_agent
+  context:
+    - customer_mapping_task
+    - demand_analysis_task
+    - customer_challenges_analysis_task
+    - consumer_behavior_analysis_task
+    - opportunity_identification_task
+    - trend_analysis_task
+
+editorial_task:
+  description: >
+    Compile all outputs from the previous agents into a cohesive and detailed report resembling an academic article. 
+    Edit the content for clarity, depth, and accessibility. Ensure consistency and professionalism throughout.
+
+    Delve into each section of the report with granular, specific details, exploring the intricate aspects of the {target_industry} in the {target_region} region.
+
+  expected_output: >
+    A final report structured as follows:
+
+    - **Abstract**
+      - A brief summary of the key findings.
+
+    - **Introduction**
+      - Overview of the {target_industry}.
+      - Purpose and scope of the report.
+
+    - **Customer Mapping**
+      - Identification of customer segments.
+      - Classification as B2C or B2B.
+      - Profiles of key customer groups.
+
+    - **Demand Analysis**
+      - Current demand trends for products/services.
+      - Reasons behind demand changes.
+      - Unmet demands in the market.
+
+    - **Customer Challenges and Expectations**
+      - Main challenges and pains of customers.
+      - Expectations and desired improvements.
+
+    - **Consumer Behavior Changes**
+      - Behavioral changes among consumers.
+      - Emerging consumption needs.
+      - Drivers of behavioral changes.
+
+    - **Opportunities Identification**
+      - Key opportunities based on customer challenges.
+      - Potential solutions and innovations.
+      - Feasibility and impact analysis.
+
+    - **Consumer Trends**
+      - Major trends from the consumers' perspective.
+      - Assessment of trend strength.
+      - Influence on consumer expectations and demand.
+
+    - **Insights on Demand Side**
+      - Synthesis of analyses.
+      - Key findings and patterns.
+      - Strategic implications.
+
+    - **Conclusion**
+      - Summary of findings.
+      - Recommendations or areas for further research.
+
+    - **References**
+      - List of all sources used.
+
+    The report should be well-structured, polished, and professionally presented, suitable for consumption by both other agents and human readers seeking deep industry knowledge.
+    Make each section rich in details, long and verbose.
+
+  agent: editorial_agent
+  context:
+    - customer_mapping_task
+    - demand_analysis_task
+    - customer_challenges_analysis_task
+    - consumer_behavior_analysis_task
+    - opportunity_identification_task
+    - trend_analysis_task

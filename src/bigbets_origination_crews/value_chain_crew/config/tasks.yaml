@@ -1,0 +1,234 @@
+retrieval_task:
+  description: >
+    Utilize web search tool to perform an exhaustive web search on the {target_industry} industry in the {target_region} region. 
+    Break down the search into multiple specific queries, each targeting one or more of the following objectives of the "Define the Value Chain" stage:
+
+    - **Objective 1:** Detail the value chain
+    - **Objective 2:** Detail each value chain step and its main activitites
+    - **Objective 3:** Detail the segments and players that compose each step of the value chain.
+    - **Objective 4:** Describe the main activities of each segment
+    - **Objective 5:** Describe players of each segment, their main activities, and provide examples of main players.
+    - **Objective 6:** Show estimates of volumes and sizes of each step in the value chain.
+    - **Objective 7:** Explain the commercial relationships between the steps and segments in the value chain, including:
+      - The products and services exchanged along the chain.
+      - The business models used in relationships between players.
+      - The main bottlenecks and challenges in this value chain.
+
+    **For each objective:**
+    - Formulate, in english and portuguese, specific search queries that focus on the objective.
+    - Perform the searches and collect a list of top five most relevant URLs/links.
+    - Ensure that the collected links comprehensively cover the objective.
+    - Document the search queries used for each objective in separated sections for english and portuguese queries.
+
+    **Provide a structured list of URLs/links organized by objective, along with the search queries used.**
+  expected_output: >
+    A structured document containing:
+
+    - **Search Queries and Results:**
+      - For each objective:
+        - The search queries used in English and Portuguese.
+        - A list of top five most relevant URLs/links.
+        - Brief annotations on the relevance of each link to the objective.
+  agent: retrieval_agent
+
+website_collection_task:
+  description: >
+    Carefully list all web pages in the document provided by the Web Search Specialist.
+    Filter the list to include only unique URLs, eliminating any duplicates.
+    Use the Online Content Read Tool to extract the content from the web pages in the filtered list.
+
+    ** IMPORTANT **
+    Don't include any duplicate url.
+    The name of the extracted document should '.md' extension.
+
+  expected_output: >
+    The list of all unique web pages in the document.
+    Status of the extraction for each web page.
+  agent: website_collector_agent
+
+industry_key_players_task:
+  description: >
+    Conduct extensive research on the {target_industry} industry in the {target_region} region, with the objective of listing the top {top_players} players on the market, including:
+
+    - List of the {top_players} biggest players in the {target_region} operating in the value chain.
+    - Description of each one of the listed players
+    - Outlining relevant context information, for example: key brands, strategic intent, M&A recente moves, or other key public information available.
+    - Show estimates of volumes and sizes of each player on {target_region}
+
+  expected_output: >
+    A table listing the {top_players} biggest players in the {target_region} as rows and including as columns on the table the following information:
+
+    - Detailed profile
+    - Relevant context information
+    - Estimates of volumes
+    - Estimates of revenue
+
+    - **References:**
+      - List of sources used, properly cited.
+
+  agent: industry_research_agent
+  # context:
+  #   - website_collection_task
+
+industry_research_task:
+  description: >
+    Use your Search Tool to conduct an deep and exhaustive research on the {target_industry} industry in the {target_region} region, performing a detailed analysis.
+    Break down the search into multiple specific queries, each targeting one or more of the following objectives:
+
+    **Objective 1:** Detail the value chain: perform a comprehensive analysis
+    **Objective 2:** Detail each one of the value chain steps:
+      - 2.1. its main activitites;
+      - 2.2. Detail the segments including:
+        - Describe the main activities of each segment;
+        - Description of types of players;
+        - Examples of main players;
+    **Objective 3:** Show estimates of volumes and sizes of each step in the value chain.
+
+    **For each objective:**
+    - Formulate, in english and portuguese, specific search queries that focus on the objective.
+    - Perform the searches and collect results for further analysis.
+
+  expected_output: >
+    A deep research report with great detailed sections.
+    Delve into each section of the report with verbose, granular, specific details, exploring the intricate aspects of the {target_industry} in the {target_region} region, including:
+
+    - **Report Title**
+      - Industry Research Report on the {target_industry} in the {target_region} region.
+    - **Value Chain outline**
+      - Identification and description of each step in the value chain
+        - Identification and description of segments for each step of the value chain.
+        - List of types of players in each segment
+        - Detailed description of the main activities within each segment.
+        - List examples of key players with detailed profiles.
+      - Show estimates of volumes and sizes of each step in the value chain.
+
+    - ** Value Chain Summary Table**
+      - Create a comprehensive table, with value chain steps outlined as different columns and other key relevant information sumarized as atributes in rows
+
+    - **Examples of Main Players:**
+      - Outline few of the most relevant players with profiles and case studies for each step in value chain.
+
+    - **Volumes and Sizes:**
+      - Estimates of volumes and sizes of the players, including market shares where available.
+
+    - **References:**
+      - List of sources used, properly cited.
+
+      
+
+  agent: industry_research_agent
+  # context:
+  #   - industry_key_players_task
+
+data_analysis_task:
+  description: >
+    Analyze the data collected by the Industry Research Specialist your own knowledge base, and all relevant links collected by the Web Search Specialist to extract quantitative insights, including estimates of volumes and sizes of the players. 
+    Create detailed tables that represent statistical information, trends, and patterns, enriching the understanding of the industry's dynamics in the {target_region} region. 
+    Ensure that your analysis aligns with the specified report structure.
+
+    Delve into each section of the report with verbose, granular, specific details, exploring the intricate aspects of the {target_industry} in the {target_region} region.
+
+  expected_output: >
+    Detailed tables and quantitative analysis of the {target_industry} industry in the {target_region} region, supporting the qualitative findings.
+  agent: data_analyst_agent
+  context:
+    # - retrieval_task
+    - industry_research_task
+
+#    Analyze information provided by the Industry Research and Data Analyst Agents, information your own knowledge base, and all relevant links collected by the Web Search Specialist.
+value_chain_analysis_task:
+  description: >
+    Map and describe in detail the relationships and business models applied on the value chain of the {target_industry} industry in the {target_region} region, focusing on the commercial relationships between the players.
+    - Explain the products and services exchanged along each step of the value chain.
+    - Describe the commercial relationships between players for each segment and step in the value chain.
+    - Describe the business models used in those relationships.
+    - Based on this detailed outline of relationships, identify the main bottlenecks and challenges in this value chain.
+    
+    Organize the information according to the specified report structure, using clear textual descriptions and supporting tables where appropriate.
+
+  expected_output: >
+    A comprehensive step by step value chain analysis of the {target_industry} industry in the {target_region} region including:
+
+    - **Report Title:**
+      - Value Chain Analysis of the {target_industry} in the {target_region} region.
+    - **Commercial Relationships:**
+      - Detailed explanation of how players interact commercially.
+    - **Products and Services Exchanged:**
+      - Identification and description of products and services exchanged for each relationship
+    - **Business Models:**
+      - Description of the business models employed for each relationship
+    - **Bottlenecks and Challenges:**
+      - Identification and analysis of the main bottlenecks and challenges in the value chain.
+    - **References:**
+      - List of sources used, properly cited
+
+    Make each section rich in details, long and verbose.
+
+    Delve into each section of the report with verbose, granular, specific details, exploring the intricate aspects of the {target_industry} in the {target_region} region.
+
+  agent: value_chain_specialist_agent
+  context:
+    # - retrieval_task
+    - industry_research_task
+    #- data_analysis_task
+
+editorial_task:
+  description: >
+    Compile and refine all content produced by the team into a cohesive, detailed, and professional report resembling an academic article, following the specified report structure.
+    Ensure the document is well-structured, rich in details, and accessible to both other agents and human readers. 
+    Polish the language, ensure logical flow, and integrate tables seamlessly into the document.
+
+    Use the full content of the following reports from your context:
+      - Industry Research report
+      - Value Chain Analysis report
+
+  expected_output: >
+    A polished and professional report on the {target_industry} industry in the {target_region} region, structured as follows:
+
+    - **Abstract**
+      - A brief summary of the key findings.
+
+    - **Introduction**
+      - Overview of the {target_industry}.
+      - Purpose and scope of the report.
+
+    - **Value Chain Definition**
+      - Detailed description of each step and segments in the value chain.
+      - Main activities within each segment.
+
+    - **Players Analysis**
+      - Profiles of key players
+      - Examples of main players and their activities.
+      - Estimates of volumes and sizes of the players.
+
+    - **Commercial Relationships**
+      - Explanation of how players interact commercially.
+      - Products and services exchanged along the chain.
+      - Business models used in relationships between players.
+
+    - **Bottlenecks and Challenges**
+      - Identification and analysis of the main bottlenecks and challenges in the value chain.
+
+    - **Value Chain Relationships and Business Models**
+      - Explain the commercial relationships between the steps and segments in the value chain, including:
+        - The products and services exchanged along the chain.
+        - The business models used in relationships between players.
+        - The main bottlenecks and challenges in this transactions.
+
+    - **Conclusion**
+      - Summary of findings.
+      - Recommendations or areas for further research.
+
+    - **References**
+      - List of all sources used.
+
+    The report should be well-structured, polished, and professionally presented, suitable for consumption by both other agents and human readers seeking deep industry knowledge.
+
+    Each section must be deep, rich in details, long and verbose.
+
+    Delve into each section of the report with verbose, granular, specific details, exploring the intricate aspects of the {target_industry} in the {target_region} region.
+
+  agent: editorial_agent
+  context:
+    - industry_research_task
+    - value_chain_analysis_task

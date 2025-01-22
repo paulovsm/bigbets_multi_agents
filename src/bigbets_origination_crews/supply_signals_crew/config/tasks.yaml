@@ -1,0 +1,305 @@
+consolidated_search_task:
+  description: >
+    Objective: To gather all necessary data from various sources using the WebSearch Tool and APIs for all analysis tasks.
+    Steps:
+      1. Identify the top 20 players in the market and collect data on their main products and services.
+      2. Gather information on the growth or decline in volume and revenue of these products.
+      3. Collect data on the six forces of Porter as applied to the value chain.
+      4. Identify the strategic priorities and investment flows of major industry players.
+      5. Gather data on global and local trends in the value chain.
+      6. Identify major M&A movements and their impact on the value chain.
+      7. Collect data on major investment and venture capital movements.
+      8. Identify new entrants and disruptors in the value chain.
+      9. Gather information on the main trends for the near future in the value chain.
+      10. Identify potential regulatory changes and their impact.
+      11. Collect data on emerging technologies that could impact the value chain.
+      12. Identify startups that are inspiring changes and new business models.
+      13. Gather data on major current and future opportunities in the value chain.
+      14. Identify signals of ongoing changes in the value chain.
+      15. Save all collected data in a vector database.
+  expected_output: >
+    - Comprehensive dataset covering all required information for subsequent analysis tasks.
+    - Organized and well-structured data stored in a vector database.
+  agent: retrieval_agent
+
+market_players_analysis:
+  description: >
+    Objective: To understand the top {top_players} players in the market, their main products and services, and the growth or decline in volume and revenue of these products.
+    Steps:
+      1. Analyze the data on the top {top_players} players in the market.
+      2. Analyze the main products and services offered by each player.
+      3. Evaluate the growth or decline in volume and revenue of these products.
+
+    [MARKET]
+    {industry_key_players}
+  expected_output: >
+    - **Report Title:**
+      - Market Players Analysis
+    - List of the top {top_players} market players with their main products and services.
+    - Comparative table showing the growth/decline in volume and revenue by their main products and services
+  agent: analysis_agent
+
+porter_six_forces_analysis:
+  description: >
+    Objective: To apply Porter's Six Forces framework to the value chain analysis.
+    Steps:
+      1. Analyze the existing competition within the market.
+      2. Evaluate the bargaining power of suppliers and customers.
+      3. Identify threats from new entrants and substitute products.
+      4. Assess the influence of regulations and other external forces.
+
+    [Value Chain Analysis]
+    {value_chain_analysis}
+  expected_output: >
+    - **Report Title:**
+      - Porter's Six Forces Analysis
+    - Detailed report on the six forces of Porter applied to the value chain.
+    - Flowchart illustrating the interactions between the forces.
+  agent: analysis_agent
+  context:
+    - market_players_analysis
+
+strategic_priorities_investments_analysis:
+  description: >
+    Objective: To identify the strategic priorities and investment flows of major industry players in the value chain analysis.
+    Steps:
+      1. Analyze the strategic priorities of major industry players.
+      2. Analyze recent and planned investments.
+      3. Evaluate the alignment between strategic priorities and investment flows.
+
+    [INDUSTRY KEY PLAYERS]
+    {industry_key_players}
+
+    [Value Chain Analysis]
+    {value_chain_analysis}
+  expected_output: >
+    - **Report Title:**
+      - Strategic Priorities and Investments Analysis
+    - List of strategic priorities.
+    - Table of recent and planned investments.
+  agent: analysis_agent
+  context:
+    - porter_six_forces_analysis
+
+global_vs_local_outlook_analysis:
+  description: >
+    Objective: To compare global and local outlooks of the value chain analysis.
+    Steps:
+      1. Analyze global trends in the value chain.
+      2. Analyze local trends in the value chain.
+      3. Compare global and local trends to identify similarities and differences.
+
+    [Value Chain Analysis]
+    {value_chain_analysis}
+  expected_output: >
+    - **Report Title:**
+      - Global vs Local Outlook Analysis
+    - Comparative report on global vs local outlooks.
+    - Graphs illustrating the trends.
+  agent: analysis_agent
+
+value_chain_current_oportunities_task:
+  description: >
+    Objective: To identify the major pressures, challenges, and opportunities in the value chain analysis.
+    Steps:
+      1. Use the full content of the following reports from your context and synthesize information collected:
+        - Market Players Analysis
+        - Porter's Six Forces Analysis
+        - Strategic Priorities and Investments Analysis
+        - Global vs Local Outlook Analysis
+      2. Identify the main pressures, challenges, and opportunities.
+
+    [Value Chain Analysis]
+    {value_chain_analysis}
+  expected_output: >
+    - Consolidated report on pressures, challenges, and opportunities.
+    - Summary table of key findings.
+  agent: synthesis_agent
+  context:
+    - market_players_analysis
+    - porter_six_forces_analysis
+    - strategic_priorities_investments_analysis
+    - global_vs_local_outlook_analysis
+
+ma_movements_analysis:
+  description: >
+    Objective: To identify major M&A movements in the value chain and analyze their impact.
+    Steps:
+      1. Analyze the impact of major M&A movements on the value chain analysis.
+
+    [Value Chain Analysis]
+    {value_chain_analysis}
+  expected_output: >
+    - **Report Title:**
+      - M&A Movements Analysis
+    - List of major M&A movements.
+    - Table of the impact of these movements.
+  agent: analysis_agent
+
+investment_vc_movements_analysis:
+  description: >
+    Objective: To identify major corporate venture capital investment movements in the value chain.
+    Steps:
+      1. Analyze the impact of major corporate venture capital investment movements on the value chain analysis.
+
+    [Value Chain Analysis]
+    {value_chain_analysis}
+  expected_output: >
+    - **Report Title:**
+      - Investment and VC Movements Analysis
+    - List of major corporate venture capital investment movements.
+    - Table of the impact of these investments.
+  agent: analysis_agent
+
+new_entrants_disruptors_analysis:
+  description: >
+    Objective: To identify new entrants and disruptors in the value chain.
+    Steps:
+      1. Analyze the impact of new entrants and disruptors on the value chain analysis.
+
+    [Value Chain Analysis]
+    {value_chain_analysis}
+  expected_output: >
+    - **Report Title:**
+      - New Entrants and Disruptors Analysis
+    - List of new entrants and disruptors.
+    - Table of the impact of these new players.
+  agent: analysis_agent
+
+follow_the_money_task:
+  description: >
+    Objective: To identify the opportunities for change in the value chain that are currently receiving investment.
+    Steps:
+      1. Use the full content of the following reports from your context and synthesize information collected:
+        - M&A Movements Analysis
+        - Investment and VC Movements Analysis
+        - New Entrants and Disruptors Analysis
+      2. Identify the opportunities for change receiving investment.
+  expected_output: >
+    - Consolidated report on opportunities for change.
+    - Summary table of key findings.
+  agent: synthesis_agent
+  context:
+    - ma_movements_analysis
+    - investment_vc_movements_analysis
+    - new_entrants_disruptors_analysis
+
+future_trends_analysis:
+  description: >
+    Objective: To identify the main trends for the near future in the value chain analysis.
+    Steps:
+      1. Analyze the potential impact of the main trends for the near future.
+
+    [Value Chain Analysis]
+    {value_chain_analysis}
+  expected_output: >
+    - **Report Title:**
+      - Future Trends Analysis
+    - List of main trends.
+    - Table of potential impact of the trends.
+  agent: trends_opportunities_agent
+
+regulatory_changes_analysis:
+  description: >
+    Objective: To identify potential regulatory changes in the value chain anlysis.
+    Steps:
+      1. Analyze the potential impact of regulatory changes.
+
+    [Value Chain Analysis]
+    {value_chain_analysis}
+  expected_output: >
+    - **Report Title:**
+      - Regulatory Changes Analysis
+    - List of potential regulatory changes.
+    - Table of potential impact of the changes.
+  agent: trends_opportunities_agent
+  context:
+    - porter_six_forces_analysis
+
+emerging_technologies_analysis:
+  description: >
+    Objective: To identify emerging technologies that could impact the value chain analysis.
+    Steps:
+      1. Analyze the potential impact of emerging technologies.
+
+    [Value Chain Analysis]
+    {value_chain_analysis}
+  expected_output: >
+    - **Report Title:**
+      - Emerging Technologies Analysis
+    - List of emerging technologies.
+    - Table of potential impact of the technologies.
+  agent: trends_opportunities_agent
+
+inspiring_startups_analysis:
+  description: >
+    Objective: To identify startups that are inspiring changes and new business models in the value chain analysis.
+    Steps:
+      1. Analyze the potential impact of inspiring startups.
+
+    [Value Chain Analysis]
+    {value_chain_analysis}
+  expected_output: >
+    - **Report Title:**
+      - Inspiring Startups Analysis
+    - List of inspiring startups.
+    - Table of potential impact of the startups.
+  agent: trends_opportunities_agent
+
+future_trends_task:
+  description: >
+    Objective: To identify the main trends for the value chain.
+    Steps:
+      1. Use the full content of the following reports from your context and synthesize information collected:
+        - Future Trends Analysis
+        - Regulatory Changes Analysis
+        - Emerging Technologies Analysis
+        - Inspiring Startups Analysis
+      2. Identify the main trends for the sector.
+
+    [Value Chain Analysis]
+    {value_chain_analysis}
+  expected_output: >
+    - Consolidated report on main trends.
+    - Summary table of key findings.
+  agent: synthesis_agent
+  context:
+    - future_trends_analysis
+    - regulatory_changes_analysis
+    - emerging_technologies_analysis
+    - inspiring_startups_analysis
+
+current_future_opportunities_analysis:
+  description: >
+    Objective: To identify the major current and future opportunities in the value chain analysis.
+    Steps:
+      1. Map all the potential opportunities identified in the previous tasks.
+
+    [Value Chain Analysis]
+    {value_chain_analysis}
+  expected_output: >
+    - List of major current and future opportunities.
+    - Table of potential impact of the opportunities.
+  agent: synthesis_agent
+  context:
+    - value_chain_current_oportunities_task
+    - follow_the_money_task
+    - future_trends_task
+
+ongoing_changes_signals_analysis:
+  description: >
+    Objective: To identify perceived signals of ongoing changes in the value chain analysis.
+    Steps:
+      1. List and describe all the signals from future trends already perceived in the market.
+      2. Correlate these signals with future opportunities identified in the previous tasks.
+
+    [Value Chain Analysis]
+    {value_chain_analysis}
+  expected_output: >
+    - List of signals of ongoing changes.
+    - Correlation table between signals and future opportunities.
+  agent: synthesis_agent
+  context:
+    - value_chain_current_oportunities_task
+    - follow_the_money_task
+    - future_trends_task

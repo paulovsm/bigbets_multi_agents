@@ -1,0 +1,218 @@
+retrieval_task:
+  description: >
+    Use advanced search tools to perform exhaustive web searches on the {target_industry} industry in the {target_region} region. 
+    Break down the search into multiple specific queries, each targeting one or more of the following objectives:
+
+    - **Objective 1:** Detail the size of the main players and their main products and services. Determine whether the revenues of these players, products, and services are increasing or decreasing.
+    - **Objective 2:** Detail the M&A movements of these players.
+    - **Objective 3:** Detail investment and venture capital movements in the target industry.
+    - **Objective 4:** Detail investor announcements from the main players, including their strategic priorities and recent movements.
+    - **Objective 5:** Detail new entrants and disruptors in the industry.
+    - **Objective 6:** Detail how the supply is distributed in this industry.
+    - **Objective 7:** Detail industry trends, specifying which trends are stronger and which are weaker.
+    - **Objective 8:** Detail potential regulatory changes in this industry.
+    - **Objective 9:** Detail technologies that could impact (positively or negatively) the industry.
+    - **Objective 10:** Detail how the supply is changing in this industry and identify signals indicating changes in supply.
+
+    **For each objective:**
+
+    - Formulate specific search queries that focus on the objective.
+    - Perform the searches and collect a list of all top 5 relevant URLs/links.
+    - Ensure that the collected links comprehensively cover the objective.
+    - Document the search queries used for each objective.
+
+    **Provide a structured list of URLs/links organized by objective, along with the search queries used.**
+
+  expected_output: >
+    A structured document containing:
+
+    - **Search Queries and Results:**
+      - For each objective:
+        - The search queries used.
+        - A list of all top five relevant URLs/links.
+        - Brief annotations on the relevance of each link to the objective.
+
+  agent: retrieval_agent
+
+website_collection_task:
+  description: >
+    Use the WebsiteSearchTool to collect the content from the provided URLs/links. Store the content in a vector database, ensuring it is properly indexed 
+    and accessible. Provide the list of URLs to the subsequent analysis agents.
+
+  expected_output: >
+    - Confirmation that all provided URLs/links have been processed and their content stored in the vector database.
+    - The list of URLs/links sent to all analysis agents (Market Intelligence Specialist, Disruption Analyst, Supply Distribution Analyst, Trend Analyst).
+
+  agent: website_collector_agent
+
+market_intelligence_analysis_task:
+  description: >
+#    Using all relevant links collected by the Web Search Specialist to retrieve and analyze data from the vector database populated with the content of all listed URLs/links.
+    Using the data collected and the value chain analysis, analyze the size of the main players, their main products and services, 
+    and determine whether their revenues are increasing or decreasing. 
+    Detail M&A activities, investment and venture capital movements, investor announcements, strategic priorities, and recent movements.
+
+    Delve into each section of the report with granular, specific details, exploring the intricate aspects of the {target_industry} in the {target_region} region.
+    
+    [Value Chain Analysis]
+    {value_chain_analysis}
+  expected_output: >
+    A detailed analysis report covering:
+    - Size of main players.
+    - Main products and services.
+    - Revenue trends (increasing or decreasing).
+    - M&A activities.
+    - Investment and venture capital movements.
+    - Investor announcements and strategic priorities.
+    - Supporting data and references.
+  agent: market_intelligence_agent
+  context:
+    - retrieval_task
+
+disruption_analysis_task:
+  description: >
+#    Using all relevant links collected by the Web Search Specialist to search the vector database to
+    Identify new entrants and disruptors in the {target_industry} in the {target_region} region. 
+    Analyze their innovations, business models, and potential impact on the industry and supply distribution.
+    Delve into each section of the report with granular, specific details, exploring the intricate aspects and nuances of the {target_industry} in the {target_region} region.
+  expected_output: >
+    A fully fledged report with in-depth and great details sections, including:
+    - List of new entrants and disruptors.
+    - Analysis of their innovations and business models.
+    - Potential implications for the industry.
+    - Supporting data and references.
+  agent: disruption_analyst_agent
+  context:
+    - retrieval_task
+
+supply_distribution_analysis_task:
+  description: >
+    Detail how the supply is distributed in the {target_industry} in the {target_region} region, using: 
+    - all relevant links collected by the Web Search Specialist to search the vector database
+    - vector database and the value chain analysis 
+    - your own knowledge base about recent market data. 
+    Include key suppliers, distribution channels, and any shifts in supply dynamics.
+
+    Delve into each section of the report with granular, specific details, exploring the intricate aspects and nuances of the {target_industry} in the {target_region} region.
+
+    [Value Chain Analysis]
+    {value_chain_analysis}
+  expected_output: >
+    A fully fledged report with in-depth and great details sections, including:
+    - Mapping of supply distribution in the industry.
+    - Key suppliers and distribution channels.
+    - Recent changes or shifts in supply dynamics.
+    - Supporting data and references.
+  agent: supply_distribution_analyst_agent
+  context:
+    - retrieval_task
+
+trend_analysis_task:
+  description: >
+    Analyze recent information to detail industry trends in the {target_region} region. 
+    Assess which trends are stronger or weaker, identify potential regulatory changes, and technologies that could impact the industry positively or negatively.
+    Use: 
+    - all relevant links collected by the Web Search Specialist
+    - your own knowledge base
+
+    Delve into each section of the report with granular, specific details, exploring the intricate aspects and nuances of the {target_industry} in the {target_region} region.
+  expected_output: >
+    A fully fledged report with in-depth and great details sections, including:
+    - Description of current industry trends.
+    - Assessment of trend strength (stronger or weaker).
+    - Potential regulatory changes.
+    - Technological impacts on the industry.
+    - Supporting data and references.
+  agent: trend_analyst_agent
+  context:
+    - retrieval_task
+
+insight_generation_task:
+  description: >
+    Synthesize analyses from the Market Intelligence, Disruption Analysis, Supply Distribution Analysis, and Trend Analysis tasks. 
+    Detail how the supply is changing in the industry and identify signals of supply change. 
+    Provide strategic insights based on the synthesized information.
+    Use: 
+    - all relevant links collected by the Web Search Specialist
+    - your own knowledge
+
+    Delve into each section of the report with granular, specific details, exploring the intricate aspects and nuances of the {target_industry} in the {target_region} region.
+  expected_output: >
+    A fully fledged report with in-depth and great details sections, including:
+    - Analysis of how supply is changing.
+    - Identification of signals indicating supply change.
+    - Strategic implications and recommendations.
+    - Supporting data and references.
+    
+  agent: insight_specialist_agent
+  context:
+    - market_intelligence_analysis_task
+    - disruption_analysis_task
+    - supply_distribution_analysis_task
+    - trend_analysis_task
+
+editorial_task:
+  description: >
+    Develop all outputs from previous agents into a cohesive and detailed report resembling an academic article. 
+    Edit the content for clarity, depth, and accessibility. 
+    Organize the report according to the specified structure, ensuring consistency and professionalism throughout.
+    Delve into each section of the report with granular, specific details, exploring the intricate aspects of the {target_industry} in the {target_region} region.
+  expected_output: >
+    A polished and professional report on the {target_industry} industry in the {target_region} region, structured as follows:
+
+    - **Abstract**
+      - A brief summary of the key findings.
+
+    - **Introduction**
+      - Overview of the {target_industry} in the {target_region} region.
+      - Purpose and scope of the report.
+
+    - **Market Analysis**
+      - Detailed analysis of main players, products, and services.
+      - Revenue trends (increasing or decreasing).
+      - M&A activities.
+      - Investment and venture capital movements.
+      - Investor announcements and strategic priorities.
+
+    - **New Entrants and Disruptors**
+      - Identification of new entrants.
+      - Analysis of their innovations and business models.
+      - Potential impact on the industry.
+
+    - **Supply Distribution**
+      - Analysis of how supply is distributed.
+      - Key suppliers and distribution channels.
+      - Shifts in supply dynamics.
+
+    - **Industry Trends**
+      - Detailed description of industry trends.
+      - Assessment of trend strength (stronger or weaker).
+      - Potential regulatory changes.
+      - Technological impacts (positive or negative).
+
+    - **Insights on Supply Change**
+      - Synthesis of previous analyses.
+      - How the supply is changing in the industry.
+      - Signals of supply change.
+      - Strategic implications.
+
+    - **Conclusion**
+      - Summary of findings.
+      - Recommendations or areas for further research.
+
+    - **References**
+      - List of all sources used.
+
+    The report should be in-depth, well-structured, polished, and professionally presented, suitable for consumption by both other agents and human readers seeking deep industry knowledge.
+
+    Each section must be deep, rich in details, long and verbose.
+
+    Delve into each section of the report with verbose, granular, specific details, exploring the intricate aspects and nuances of the {target_industry} in the {target_region} region.
+
+  agent: editorial_agent
+  context:
+    - market_intelligence_analysis_task
+    - disruption_analysis_task
+    - supply_distribution_analysis_task
+    - trend_analysis_task
+    - insight_generation_task
