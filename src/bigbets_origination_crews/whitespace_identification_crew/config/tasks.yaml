@@ -1,293 +1,142 @@
-retrieval_task:
-  description: >
-    Use advanced search tools to perform exhaustive web searches on the {target_industry} industry in the {target_region}. 
-    Break down the search into multiple specific queries, each targeting one or more of the following objectives of the "Identify Potential Whitespaces" stage:
-
-    - **Objective 1:** Detail which market niches are emerging in the {target_region}.
-      - Identify niches where supply is emerging for unmet or emerging demands.
-      - Identify niches where supply is fragmented or non-existent for unmet or emerging demands.
-
-    - **Objective 2:** Identify and detail business opportunities at the intersection of market information (supply) and customer needs (demand) in the {target_region}, whether B2Bs or B2Cs.
-      - Create and detail a list of potential opportunity areas.
-      - Highlight those with greater or lesser potential for success.
-
-    - **Objective 3:** Identify and detail the list of potential whitespaces in the {target_region}.
-      - Determine which whitespaces have more positive signals.
-      - Determine which whitespaces have greater market potential.
-
-    **For each objective:**
-
-    - Formulate specific search queries that focus on the objective within the context of the {target_region}.
-    - Perform the searches and collect a list of relevant URLs/links.
-    - Ensure that the collected links comprehensively cover the objective in the {target_region}.
-    - Document the search queries used for each objective.
-
-    **Provide a structured list of URLs/links organized by objective, along with the search queries used.**
-
-  expected_output: >
-    A structured document containing:
-
-    - **Search Queries and Results:**
-      - For each objective:
-        - The search queries used.
-        - A list of relevant URLs/links.
-        - Brief annotations on the relevance of each link to the objective and the {target_region}.
-
-  agent: retrieval_agent
-
-website_collection_task:
-  description: >
-    Use the WebsiteSearchTool to collect the content from the provided URLs/links supplied by the Retrieval Agent. 
-    Store the content in a vector database, ensuring it is properly indexed and accessible. 
-    Provide the list of URLs to the subsequent analysis agents (Market Niches Analyst, Opportunity Identification Specialist, Whitespaces Identification Specialist).
-
-  expected_output: >
-    - Confirmation that all provided URLs/links have been processed and their content stored in the vector database.
-    - The list of URLs/links sent to all analysis agents.
-
-  agent: website_collector_agent
-
-market_niches_analysis_task:
-  description: >
-    Detail which market niches are emerging in the {target_industry} within the {target_region}. 
-    Perform the analysis and identify niches where new offers are emerging for unmet or emerging demands, and niches where supply is fragmented or non-existent for unmet or emerging demands.
+---
+identify_niche_emerging_markets:
+  description: |
+    Identify niche and emerging markets (potential whitespaces).
+    Create a table to analyzes demand side opportunities (rows) vs. offer side opportunities (columns).
     
-    Steps:
-      1. Use the full content of the following reports from your context and synthesize information collected:
-        - Current and Future Opportunities
-        - Ongoing Changes Signals
-        - Current Pains
-        - Consumption Trends 
-        - Value Chain Analysis
-      2. Identify niches where new offers are emerging for unmet or emerging demands.
-      3. Identify niches where new offfers are fragmented or non-existent for unmet or emerging demands.
-
-    Provide detailed analysis and examples, exploring the intricate aspects and nuances of these niches in the {target_region}.
-
-    **CONTEXT:**
-    [Value Chain Analysis]
+    Whitespaces will be the niche or emerging markets where there are opportunities to fill demand side opportunities and challenges with new offer opportunities: 
+    they can be either emerging, already existing but fragmented, or still incipient offers.
+    
+    Relevant information for the analysis and conclusion of the analysis:
+     - Demand side opportunities       
+     - Offer side opportunities
+     - Challenges and barriers
+     - Potential solutions and innovations
+    
+    <Knowledge Required>
+    
+    <Value Chain Analysis>
     {value_chain_analysis}
-
-    [Current and Future Opportunities]
+    </Value Chain Analysis>
+    
+    <Current and Future Opportunities>
     {current_future_opportunities}
-
-    [Ongoing Changes Signals]
+    </Current and Future Opportunities>
+    
+    <Ongoing Changes Signals>
     {ongoing_changes_signals}
-
-    [Current Pains]
+    </Ongoing Changes Signals>
+    
+    <Current Pains>
     {current_pains}
-
-    [Consumption Trends]
+    </Current Pains>
+    
+    <Consumption Trends>
     {consumption_trends}
-
-  expected_output: >
-    A comprehensive analysis including:
-
-    - **Report Title:**
-      - Market Niches Analysis
-    - Identification of emerging market niches in the {target_region}.
-    - Detailed descriptions of niches with emerging offers for unmet demands in the {target_region}.
-    - Detailed descriptions of niches with fragmented or non-existent supply for unmet demands in the {target_region}.
-    - Supporting data and references specific to the {target_region}.
+    </Consumption Trends>
     
-    Make sure each section is rich in details, long and verbose, avoid being too concise or too brief, and avoid excessive bullet points with no context.
-    Always evaluate when make sense to add tables to support the analysis.
+    </Knowledge Required>
+  expected_output: |
+    - Table with analysis of demand side opportunities vs. offer side opportunities.
+    - List of identified whitespaces (niche and emerging potential markets).
+  agent: industry_expert_consultant
 
-  agent: market_niches_analyst_agent
-
-opportunity_identification_task:
-  description: >
-    Identify and detail business opportunities at the intersection of market information (supply) and customer needs (demand) in the {target_region}, whether B2Bs or B2Cs.
-    Perform the analysis to create and detail a list of potential opportunity areas specific to the {target_region}.
+qualify_potential_whitespaces:
+  description: |
+    For each identified whitespace, qualify them with:
+      - List of signals related to the demand side;
+      - List of signals related to the offer side;
+      - Identify which step or steps of the value chain are being affected and how disruptive it might be;
+      - Rank the whitespaces according to the strength of market signals;
+      - Define the key assumptions and risks associated with that potential market;
     
-    Steps:
-      1. Use the full content of the following reports from your contexts and synthesize information collected:
-        - Current and Future Opportunities
-        - Ongoing Changes Signals
-        - Current Pains
-        - Consumption Trends
-        - Market Niches Analysis
-        - Value Chain Analysis
-      2. Create and detail a list of potential opportunity areas specific to the {target_region}.
-      3. Highlight those with greater or lesser potential for success.
-
-    Provide in-depth analysis, feasibility assessments, and strategic recommendations for the {target_region}.
-
-    **CONTEXT:**
-    [Value Chain Analysis]
+    <Knowledge Required>
+    
+    <Value Chain Analysis>
     {value_chain_analysis}
-
-    [Current and Future Opportunities]
+    </Value Chain Analysis>
+    
+    <Current and Future Opportunities>
     {current_future_opportunities}
-
-    [Ongoing Changes Signals]
+    </Current and Future Opportunities>
+    
+    <Ongoing Changes Signals>
     {ongoing_changes_signals}
-
-    [Current Pains]
+    </Ongoing Changes Signals>
+    
+    <Current Pains>
     {current_pains}
-
-    [Consumption Trends]
+    </Current Pains>
+    
+    <Consumption Trends>
     {consumption_trends}
-
-  expected_output: >
-    A detailed report including:
-
-    - **Report Title:**
-      - Opportunity Identification
-    - A list of potential opportunity areas in the {target_region}.
-    - Detailed descriptions and analyses of each opportunity.
-    - Assessment of potential success (e.g., market size, growth potential, competition) within the {target_region}.
-    - Strategic recommendations tailored to the {target_region}.
-    - Supporting data and references.
-
-    Make sure each section is rich in details, long and verbose, avoid being too concise or too brief, and avoid excessive use of bullet points with no context or little explanation.
-    Always evaluate when make sense to add tables to support the analysis.
-
-  agent: opportunity_identification_agent
+    </Consumption Trends>
+    
+    </Knowledge Required>
+  expected_output: |
+    Qualified list of whitespaces with:
+    - Demand side signals related
+    - Offer side signals related
+    - Affected steps of the value chain
+    - Ranking of whitespaces based on market signals
+    - Key assumptions and risks for each potential market
+    - Challenges and barriers
+    - Potential solutions and innovations
+  agent: industry_expert_consultant
   context:
-    - market_niches_analysis_task
+    - identify_niche_emerging_markets
 
-whitespaces_identification_task:
-  description: >
-    Identify and detail the list of potential whitespaces in the {target_industry} within the {target_region}.
-    Perform the analysis to determine which whitespaces have more positive signals and which have greater market potential in the {target_region}.
-
-
-    Steps:
-      1. Use the full content of the following reports from your context and synthesize information collected:
-        - Current and Future Opportunities
-        - Ongoing Changes Signals
-        - Current Pains
-        - Consumption Trends
-        - Value Chain Analysis
-      2. Identify potential whitespaces in the {target_region}.
-      3. Determine which whitespaces have more positive signals in the {target_region}.
-      4. Determine which whitespaces have greater market potential in the {target_region}.
-      5. Provide detailed analyses, including potential barriers to entry, market readiness, and strategic implications specific to the {target_region}.
-
-    **CONTEXT:**
-    [Value Chain Analysis]
+calculate_potential_addressable_market:
+  description: |
+    For each identified whitespace, quantify their potential addressable market by taking the following steps:
+    1. Define and list all the key assumptions to determine a formula for calculating the potential addressable market for that specific whitespace. 
+       Explain the rationale in detail. We do not need a precise number, ranges and a fair
+    2. Research all the numbers necessary for the key assumptions, one by one, listing the rationale and source used to define each number.
+    3. Calculate the potential addressable market using the formula defined in step 1 and the numbers researched in step 2. 
+       If data is not available for a calculation, simplify assumption and addressable market formula and reiterate.
+    
+    <Knowledge Required>
+    
+    <Value Chain Analysis>
     {value_chain_analysis}
-
-    [Current and Future Opportunities]
+    </Value Chain Analysis>
+    
+    <Current and Future Opportunities>
     {current_future_opportunities}
-
-    [Ongoing Changes Signals]
+    </Current and Future Opportunities>
+    
+    <Ongoing Changes Signals>
     {ongoing_changes_signals}
-
-    [Current Pains]
+    </Ongoing Changes Signals>
+    
+    <Current Pains>
     {current_pains}
-
-    [Consumption Trends]
+    </Current Pains>
+    
+    <Consumption Trends>
     {consumption_trends}
-
-  expected_output: >
-    A comprehensive report including:
-
-    - **Report Title:**
-      - Whitespaces Identification
-    - Identification of potential whitespaces in the {target_region}.
-    - Detailed analysis of each whitespace.
-    - Assessment of positive signals and market potential for each whitespace in the {target_region}.
-    - Strategic implications and recommendations for the {target_region}.
-    - Supporting data and references.
-
-    Make sure each section is rich in details, long and verbose, avoid being too concise or too brief, and avoid excessive use of bullet points with no context or little explanation.
-    Always evaluate when make sense to add tables to support the analysis.
-
-  agent: whitespaces_identification_agent
-
-insight_generation_task:
-  description: > 
-    Provide comprehensive insights into potential market opportunities and whitespaces in the {target_industry} within the {target_region}. 
-    Highlight key findings, patterns, and strategic implications for businesses operating in the {target_region}.
-
-    Steps:
-      1. Use the full content of the following reports from your context and synthesize information collected:
-        - Market Niches Analysis
-        - Opportunity Identification
-        - Whitespaces Identification
-      2. Synthesize key findings and patterns.
-      3. Provide strategic implications and recommendations for businesses in the {target_region}.
-
-  expected_output: >
-    An insights report including:
-
-    - **Report Title:**
-      - Insights and Strategic Implications
-    - Summary of key findings from all analyses.
-    - Identification of overarching themes and patterns in the {target_region}.
-    - Strategic implications and recommendations for businesses in the {target_region}.
-    - Supporting data and references.
-
-    Make sure each section is rich in details, long and verbose, avoid being too concise or too brief, and avoid excessive use of bullet points with no context or little explanation.
-    Always evaluate when make sense to add tables to support the analysis.
-
-  agent: insight_specialist_agent
+    </Consumption Trends>
+    
+    </Knowledge Required>
+  expected_output: |
+    Quantified potential addressable market for each whitespace, including:
+    - Key assumptions and detailed rationale
+    - Researched numbers with rationale and sources
+    - Calculated potential addressable market with defined ranges
+  agent: financial_modeling_specialist
   context:
-    - market_niches_analysis_task
-    - opportunity_identification_task
-    - whitespaces_identification_task
+    - qualify_potential_whitespaces
 
-editorial_task:
-  description: > 
-    Edit the content for clarity, depth, and accessibility. Organize the report exactly according to the specified structure below, ensuring consistency and professionalism throughout.
+complete_report_mapped_whitespaces:
+  description: | 
+    Compile the list of potential whitespaces qualified with its respective addressable market calculated
 
-    **Note:** The report should specifically address the {target_industry} within the {target_region}, providing regional insights and analyses.
-
-    Steps:
-      1. Use the full content of the following reports from your context and synthesize information collected:
-        - Market Niches Analysis
-        - Opportunity Identification
-        - Whitespaces Identification
-        - Insights and Strategic Implications
-      2. Organize the content into the following structured report format.
-
-  expected_output: >
-    A final report structured as follows:
-
-    - **Abstract**
-      - A brief summary of the key findings.
-
-    - **Introduction**
-      - Overview of the {target_industry} in the {target_region}.
-      - Purpose and scope of the report.
-
-    - **Emerging Market Niches in {target_region}**
-      - Identification of emerging niches.
-      - Detailed descriptions of niches with emerging supply.
-      - Niches with fragmented or non-existent supply.
-
-    - **Opportunity Identification in {target_region}**
-      - List of potential opportunity areas.
-      - Detailed analyses of each opportunity.
-      - Assessment of potential success.
-
-    - **Whitespaces Identification in {target_region}**
-      - Identification of potential whitespaces.
-      - Detailed analysis of each whitespace.
-      - Positive signals and market potential.
-
-    - **Insights and Strategic Implications for {target_region}**
-      - Synthesis of previous analyses.
-      - Key findings and patterns.
-      - Strategic implications.
-
-    - **Conclusion**
-      - Summary of findings.
-      - Recommendations or areas for further research.
-
-    - **References**
-      - List of all sources used.
-
-    The report should be well-structured, polished, and professionally presented, suitable for consumption by both other agents and human readers seeking deep industry knowledge specific to the {target_region}.
-
-    Make sure each section is rich in details, long and verbose, avoid being too concise or too brief, and avoid excessive use of bullet points with no context or little explanation.
-    Always evaluate when make sense to add tables to support the analysis.
+  expected_output: |
+    List of potential whitespaces, including:
+    - market signals identified
+    - potential addressable market
 
   agent: editorial_agent
   context:
-    - market_niches_analysis_task
-    - opportunity_identification_task
-    - whitespaces_identification_task
-    - insight_generation_task
+    - qualify_potential_whitespaces
+    - calculate_potential_addressable_market

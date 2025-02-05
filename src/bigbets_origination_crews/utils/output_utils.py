@@ -18,10 +18,38 @@ def print_output(output: TaskOutput, output_dir: str, report_folder: str, file_n
     chat_interface.send(message, user=output.agent, respond=False)
 
     html_content = markdown(output.raw, extensions=['markdown_tables_extended'])
+
+     # CSS para estilizar as tabelas
+    table_css = """
+    <style>
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin: 1em 0;
+        }
+        th {
+            background-color: #4CAF50;
+            color: white;
+            padding: 12px;
+            border: 1px solid #ddd;
+        }
+        td {
+            padding: 8px;
+            border: 1px solid #ddd;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        tr:hover {
+            background-color: #ddd;
+        }
+    </style>
+    """
     
     final_html_content = f"""<html>
         <head>
         <meta charset="UTF-8">
+        {table_css}
         </head>
         <body>
         {html_content}

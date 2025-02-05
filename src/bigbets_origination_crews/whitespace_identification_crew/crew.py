@@ -24,54 +24,21 @@ class WhitespaceIdentificationCrew():
 
 	#################################################### AGENTS ####################################################
 	@agent
-	def retrieval_agent(self) -> Agent:
+	def industry_expert_consultant(self) -> Agent:
 		return Agent(
-			config=self.agents_config['retrieval_agent'],
-			tools=[SerperDevTool()], 
+			config=self.agents_config['industry_expert_consultant'],
+			#tools=[SerperDevTool()], 
 			verbose=True
 		)
 
 	@agent
-	def website_collector_agent(self) -> Agent:
+	def financial_modeling_specialist(self) -> Agent:
 		return Agent(
-			config=self.agents_config['website_collector_agent'],
-			tools=[WebsiteSearchTool()], 
-			verbose=True
-		)
-
-	@agent
-	def market_niches_analyst_agent(self) -> Agent:
-		return Agent(
-			config=self.agents_config['market_niches_analyst_agent'],
-			#tools=[WebsiteSearchTool()], 
+			config=self.agents_config['financial_modeling_specialist'],
+			#tools=[WebsiteSearchTool()],
+			#allow_code_execution=True,
 			verbose=True,
 			llm=self.llm
-		)	
-
-	@agent
-	def opportunity_identification_agent(self) -> Agent:
-		return Agent(
-			config=self.agents_config['opportunity_identification_agent'],
-			#tools=[WebsiteSearchTool()], 
-			verbose=True,
-			llm=self.llm
-		)
-
-	@agent
-	def whitespaces_identification_agent(self) -> Agent:
-		return Agent(
-			config=self.agents_config['whitespaces_identification_agent'],
-			#tools=[WebsiteSearchTool()], 
-			verbose=True,
-			llm=self.llm
-		)
-
-	@agent
-	def insight_specialist_agent(self) -> Agent:
-		return Agent(
-			config=self.agents_config['insight_specialist_agent'],
-			#tools=[WebsiteSearchTool()], 
-			verbose=True
 		)
 
 	@agent
@@ -83,60 +50,36 @@ class WhitespaceIdentificationCrew():
 
 	#################################################### Tasks ####################################################
 
-	# @task
-	# def retrieval_task(self) -> Task:
-	# 	return Task(
-	# 		config=self.tasks_config['retrieval_task'],
-	# 		callback=print_output,
-	# 		human_input=True
-	# 	)
-
-	# @task
-	# def website_collection_task(self) -> Task:
-	# 	return Task(
-	# 		config=self.tasks_config['website_collection_task'],
-	# 		callback=print_output,
-	# 		human_input=True
-	# 	)
-
 	@task
-	def market_niches_analysis_task(self) -> Task:
+	def identify_niche_emerging_markets(self) -> Task:
 		return Task(
-			config=self.tasks_config['market_niches_analysis_task'],
-			callback=lambda output: print_output(output, self.output_dir, self.current_step, "1. Market Niches Analysis"),
+			config=self.tasks_config['identify_niche_emerging_markets'],
+			callback=lambda output: print_output(output, self.output_dir, self.current_step, "1. Identify Niche and Emerging Markets (Potential Whitespaces)"),
 			human_input=self.human_input
 		)
 
 	@task
-	def opportunity_identification_task(self) -> Task:
+	def qualify_potential_whitespaces(self) -> Task:
 		return Task(
-			config=self.tasks_config['opportunity_identification_task'],
-			callback=lambda output: print_output(output, self.output_dir, self.current_step, "2. Opportunities Identification"),
+			config=self.tasks_config['qualify_potential_whitespaces'],
+			callback=lambda output: print_output(output, self.output_dir, self.current_step, "2. Qualify Potential Whitespaces"),
 			human_input=self.human_input
 		)
 
 	@task
-	def whitespaces_identification_task(self) -> Task:
+	def calculate_potential_addressable_market(self) -> Task:
 		return Task(
-			config=self.tasks_config['whitespaces_identification_task'],
-			callback=lambda output: print_output(output, self.output_dir, self.current_step, "3. Whitespaces Identification"),
+			config=self.tasks_config['calculate_potential_addressable_market'],
+			callback=lambda output: print_output(output, self.output_dir, self.current_step, "3. Calculate Potential Addressable Market"),
 			human_input=self.human_input
 		)
 
 	@task
-	def insight_generation_task(self) -> Task:
+	def complete_report_mapped_whitespaces(self) -> Task:
 		return Task(
-			config=self.tasks_config['insight_generation_task'],
-			callback=lambda output: print_output(output, self.output_dir, self.current_step, "4. Insights and Strategic Implications"),
-			human_input=self.human_input
-		)
-
-	@task
-	def editorial_task(self) -> Task:
-		return Task(
-			config=self.tasks_config['editorial_task'],
-			output_file=f"{self.output_dir}/output_raw/whitespace_identification_report.md",
-			callback=lambda output: print_output(output, self.output_dir, self.current_step, "5. Whitespaces Final Report"),
+			config=self.tasks_config['complete_report_mapped_whitespaces'],
+			output_file=f"{self.output_dir}/output_raw/whitespace_complete_report.md",
+			callback=lambda output: print_output(output, self.output_dir, self.current_step, "4. Mapped Whitespaces Complete Report"),
 			human_input=self.human_input
 		)
 
