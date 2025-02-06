@@ -10,7 +10,7 @@ from crewai import LLM
 
 def run_value_chain_crew(initial_request, chat_interface, create_output_directory, run_supply_crew):
     try:
-        # Captura os inputs do usuário através do novo fluxo
+        # Capture user inputs using the new flow
         input_params, output_dir, job_id = capture_user_input(initial_request, chat_interface, create_output_directory)
         
         chat_interface.send(
@@ -21,7 +21,7 @@ def run_value_chain_crew(initial_request, chat_interface, create_output_director
         
         if not input_params["value_chain_step"]:
             chat_interface.send(
-                "The **Value Chain Crew** step will be skipped.",
+                "The Value Chain step will be skipped.",
                 user="Assistant",
                 respond=False
             )
@@ -31,7 +31,7 @@ def run_value_chain_crew(initial_request, chat_interface, create_output_director
             return
         else:
             chat_interface.send(
-                "Now I will start the **Value Chain Crew**. Please wait a moment...",
+                "Now starting the Value Chain process. Please wait a moment...",
                 user="Assistant",
                 respond=False
             )
@@ -49,7 +49,7 @@ def run_value_chain_crew(initial_request, chat_interface, create_output_director
                            lambda input_params, output_dir, chat_interface, next_step: run_demand_crew(input_params, output_dir, chat_interface, run_whitespace_crew))
 
     except Exception as e:
-        # Print the error complete stack trace
+        # Print the full error stack trace
         error_message = traceback.format_exc()
         print(error_message)
         chat_interface.send(f"An error occurred: {e}", user="Assistant", respond=False)

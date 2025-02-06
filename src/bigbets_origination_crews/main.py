@@ -24,6 +24,7 @@ from bigbets_origination_crews.whitespace_identification_crew.crew import Whites
 from bigbets_origination_crews.chat_shared import chat_interface
 from crewai import LLM
 import bigbets_origination_crews.shared_state as shared_state
+from bigbets_origination_crews.flows import input_flow  # Import the input_flow module
 
 from bigbets_origination_crews.crew_flow import (
     run_value_chain_crew,
@@ -32,11 +33,8 @@ from bigbets_origination_crews.crew_flow import (
     run_whitespace_crew
 )
 
-user_input = None
-
 def custom_ask_human_input(self, final_answer: dict) -> str:
-    global user_input
-
+    
     # Remove a mensagem "Thinking..." se estiver presente
     if shared_state.loading_message is not None:
         try:
@@ -56,11 +54,11 @@ def custom_ask_human_input(self, final_answer: dict) -> str:
     prompt = f"Please provide feedback on provided response and the **{agent_name}** will continue the process."
     chat_interface.send(prompt, user=self.agent.role, respond=False)
 
-    while user_input is None:
+    while shared_state.user_input is None:
         time.sleep(1)
 
-    human_comments = user_input
-    user_input = None
+    human_comments = shared_state.user_input
+    shared_state.user_input = None
     return human_comments
 
 CrewAgentExecutorMixin._ask_human_input = custom_ask_human_input
@@ -75,9 +73,15 @@ def create_output_directory(target_industry):
     return (output_dir, folder_name)
 
 def callback(contents: str, user: str, instance: pn.chat.ChatInterface):
-    global user_input
     
     print(f"Current crew: {shared_state.current_crew}")
+    print(f"is_capturing_input in callback: {shared_state.is_capturing_input}")  # Log adicional
+
+    # If capture_user_input is running, forward the user's message.
+    if shared_state.is_capturing_input:
+        shared_state.user_input = contents
+        print("Capturing input")
+        return
 
     if shared_state.current_crew is None:
         print("No crew selected")
@@ -93,7 +97,7 @@ def callback(contents: str, user: str, instance: pn.chat.ChatInterface):
         if shared_state.loading_message is not None:
             chat_interface.remove(shared_state.loading_message)
         shared_state.loading_message = chat_interface.send("Agent thinking...", user="Assistant", respond=False)
-        user_input = contents
+        shared_state.user_input = contents
 
 chat_interface.callback = callback
 
