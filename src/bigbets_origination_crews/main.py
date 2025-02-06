@@ -34,12 +34,6 @@ from bigbets_origination_crews.crew_flow import (
 
 user_input = None
 
-llm = LLM(
-		model="openrouter/microsoft/phi-4",
-        response_format={ "type": "json_object" }
-		# base_url="https://api.together.xyz/v1"
-	)
-
 def custom_ask_human_input(self, final_answer: dict) -> str:
     global user_input
 
@@ -88,7 +82,7 @@ def callback(contents: str, user: str, instance: pn.chat.ChatInterface):
     if shared_state.current_crew is None:
         print("No crew selected")
         def run_flow():
-            run_value_chain_crew(contents, llm, chat_interface, create_output_directory, run_supply_crew)
+            run_value_chain_crew(contents, chat_interface, create_output_directory, run_supply_crew)
             # run_supply_crew(...)
             # run_demand_crew(...)
             # run_whitespace_crew(...)

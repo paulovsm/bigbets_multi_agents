@@ -5,3 +5,4 @@ logs/
 output/
 scraped_pages/
 *.cython
+*.pyc
