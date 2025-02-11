@@ -19,7 +19,12 @@ class ResearchCrew():
 	agents_config = 'config/agents.yaml'
 	tasks_config = 'config/tasks.yaml'
 	current_step = "1. Value Chain"
+	
 	llm = LLM(
+		model=os.getenv('MODEL'),
+	)
+
+	search_llm = LLM(
 		model=os.getenv('SEARCH_MODEL'),
 	)
 
@@ -46,7 +51,7 @@ class ResearchCrew():
 			config=self.agents_config['industry_research_agent'],
 			# tools=[self.directory_search_tool], 
 			verbose=True,
-			llm=self.llm
+			llm=self.search_llm
 		)
 
 	@agent
@@ -55,7 +60,7 @@ class ResearchCrew():
 			config=self.agents_config['data_analyst_agent'],
 			# tools=[WebsiteSearchTool()], 
 			verbose=True,
-   			llm=self.llm
+   			llm=self.search_llm
 		)
 
 	@agent
@@ -64,7 +69,7 @@ class ResearchCrew():
 			config=self.agents_config['value_chain_specialist_agent'],
 			# tools=[WebsiteSearchTool()], 
 			verbose=True,
-			llm=self.llm
+			llm=self.search_llm
 		)
 
 	@agent
@@ -72,7 +77,7 @@ class ResearchCrew():
 		return Agent(
 			config=self.agents_config['editorial_agent'],
 			verbose=True,
-			#llm=self.llm
+			llm=self.llm
 		)
 
 	#################################################### Tasks ####################################################

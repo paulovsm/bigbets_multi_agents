@@ -11,7 +11,7 @@ dependencies = [
     "markdown",
     "markdown-tables-extended",
     "pdfkit",
-    "docling"
+    "docling",
 ]
 
 [project.scripts]

@@ -4,5 +4,7 @@ db/
 logs/
 output/
 scraped_pages/
-*.cpython*
+**/__pycache__/
+*.cpython-310.pyc
 *.pyc
+knowledge/

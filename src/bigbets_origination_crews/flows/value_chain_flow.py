@@ -5,6 +5,7 @@ import bigbets_origination_crews.shared_state as shared_state
 from bigbets_origination_crews.value_chain_crew.crew import ResearchCrew
 from bigbets_origination_crews.flows.demand_flow import run_demand_crew
 from bigbets_origination_crews.flows.whitespace_flow import run_whitespace_crew
+from bigbets_origination_crews.flows.whitespace_interaction_flow import run_whitespace_interaction_flow
 from bigbets_origination_crews.flows.input_flow import capture_user_input
 from crewai import LLM
 
@@ -12,6 +13,11 @@ def run_value_chain_crew(initial_request, chat_interface, create_output_director
     try:
         # Capture user inputs using the new flow
         input_params, output_dir, job_id = capture_user_input(initial_request, chat_interface, create_output_directory)
+        
+        # Verifica se o usuário deseja interagir com uma whitespace existente e delega o fluxo
+        if input_params.get("whitespace_interaction", False):
+            run_whitespace_interaction_flow(output_dir, input_params, chat_interface, job_id)
+            return
         
         chat_interface.send(
             f"Your Job ID is: **{job_id}**. You can use this ID to continue or resume the process later.",
@@ -21,7 +27,7 @@ def run_value_chain_crew(initial_request, chat_interface, create_output_director
         
         if not input_params["value_chain_step"]:
             chat_interface.send(
-                "The Value Chain step will be skipped.",
+                "The **Value Chain** step will be skipped.",
                 user="Assistant",
                 respond=False
             )
@@ -31,7 +37,7 @@ def run_value_chain_crew(initial_request, chat_interface, create_output_director
             return
         else:
             chat_interface.send(
-                "Now starting the Value Chain process. Please wait a moment...",
+                "Now starting the **Value Chain** process. Please wait a moment...",
                 user="Assistant",
                 respond=False
             )

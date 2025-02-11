@@ -81,6 +81,7 @@ def extract_and_validate_parameters(original_request, chat_interface, create_out
                 - if demand signals step is expected
                 - if supply signals step is expected
                 - if whitespace identification step is expected
+                - if whitespace interaction is requested (to interact with an existing knowledge base)
                 - Job ID (previous execution ID)
                 
                 You MUST respond as a JSON object. 
@@ -89,17 +90,17 @@ def extract_and_validate_parameters(original_request, chat_interface, create_out
                 {
                     "target_industry": "Food & Beverages", # Required field
                     "target_region": "Brazil", # Required field
-                    "top_players": 10, # Default 10
+                    "top_players": 10, #  Default 10
                     "human_input": true, # Default false
                     "value_chain_step": true, # Default true
                     "demand_signals_step": true, # Default true
                     "supply_signals_step": true, # Default true
                     "whitespace_identification_step": true, # Default true
+                    "whitespace_interaction": false, # Default false
                     "job_id": "Run_FoodBeverages_20250117143434" # Optional field
                 }
                 
-                If you don't have the information for a field, you must fill with the default value.
-                
+                If you don't have the information for a field, fill it with the default value.
                 """,
                 "role": "system" 
             },
@@ -114,8 +115,9 @@ def extract_and_validate_parameters(original_request, chat_interface, create_out
     
     target_industry = llm_response.get("target_industry")
     if not target_industry:
+        shared_state.is_capturing_input = False
         raise ValueError("The 'target industry' field is required")
-
+    
     input_params = {
         "target_industry": target_industry,
         "target_region": llm_response.get("target_region", "Brazil"),
@@ -124,7 +126,8 @@ def extract_and_validate_parameters(original_request, chat_interface, create_out
         "value_chain_step": bool(llm_response.get("value_chain_step", True)),
         "demand_signals_step": bool(llm_response.get("demand_signals_step", True)),
         "supply_signals_step": bool(llm_response.get("supply_signals_step", True)),
-        "whitespace_identification_step": bool(llm_response.get("whitespace_identification_step", True))
+        "whitespace_identification_step": bool(llm_response.get("whitespace_identification_step", True)),
+        "whitespace_interaction": bool(llm_response.get("whitespace_interaction", False))
     }
     
     job_id = llm_response.get("job_id")
@@ -147,6 +150,15 @@ def format_parameters_summary(input_params, job_id):
     Returns:
         str: Formatted summary
     """
+    # If whitespace interaction is requested, return a different message
+    if input_params.get("whitespace_interaction", False):
+        return (
+            "You have requested to interact with an existing whitespace knowledge base.\n"
+            f"- Industry of Interest: {input_params['target_industry']}\n"
+            f"- Job ID: {job_id}\n\n"
+            "Please type 'yes' to confirm or 'no' to enter the information again."
+        )
+    
     return (
         "Here's what we have gathered:\n"
         f"- Industry of Interest: {input_params['target_industry']}\n"

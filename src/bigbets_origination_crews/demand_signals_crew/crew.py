@@ -14,7 +14,12 @@ class DemandSignalsCrew():
 	agents_config = 'config/agents.yaml'
 	tasks_config = 'config/tasks.yaml'
 	current_step = "3. Demand Signals"
+	
 	llm = LLM(
+		model=os.getenv('MODEL'),
+	)
+
+	search_llm = LLM(
 		model=os.getenv('SEARCH_MODEL'),
 	)
 
@@ -37,7 +42,7 @@ class DemandSignalsCrew():
 			config=self.agents_config['analysis_agent'],
 			#tools=[WebsiteSearchTool()], 
 			verbose=True,
-			llm=self.llm
+			llm=self.search_llm
 		)	
 
 	@agent
@@ -45,7 +50,8 @@ class DemandSignalsCrew():
 		return Agent(
 			config=self.agents_config['synthesis_agent'],
 			#tools=[WebsiteSearchTool()], 
-			verbose=True
+			verbose=True,
+			llm=self.llm
 		)
 
 	@agent
@@ -54,7 +60,7 @@ class DemandSignalsCrew():
 			config=self.agents_config['trends_opportunities_agent'],
 			# tools=[WebsiteSearchTool()], 
 			verbose=True,
-			llm=self.llm
+			llm=self.search_llm
 		)
 
 	#################################################### Tasks ####################################################

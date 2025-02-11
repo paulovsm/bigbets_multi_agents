@@ -13,8 +13,8 @@ load_dotenv()
 pn.extension(design="native")
 
 # Must precede any llm module imports
-from langtrace_python_sdk import langtrace
-langtrace.init(api_key = '12fc0dc8b514242abad8889e39fb94a5e100c73b9c3110c6a0cb56ff0cb14305')
+# from langtrace_python_sdk import langtrace
+# langtrace.init(api_key = '12fc0dc8b514242abad8889e39fb94a5e100c73b9c3110c6a0cb56ff0cb14305')
 
 from crewai.agents.agent_builder.base_agent_executor_mixin import CrewAgentExecutorMixin
 from bigbets_origination_crews.value_chain_crew.crew import ResearchCrew

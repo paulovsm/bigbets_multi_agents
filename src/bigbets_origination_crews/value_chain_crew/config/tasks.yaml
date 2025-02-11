@@ -54,6 +54,9 @@ industry_key_players_task:
     - Description of each one of the listed players
     - Outlining relevant context information, for example: key brands, strategic intent, M&A recente moves, or other key public information available.
     - Show estimates of volumes and sizes of each player on {target_region}
+    - Use only trustworthy sources and provide proper citations.
+    - Use the most up-to-date information from 2024 and 2025.
+    - Prioritize brazilian sources written in portuguese.
 
   expected_output: >
     A table listing the {top_players} biggest players in the {target_region} as rows and including as columns on the table the following information:
@@ -72,7 +75,7 @@ industry_key_players_task:
 
 industry_research_task:
   description: >
-    Use your Search Tool to conduct an deep and exhaustive research on the {target_industry} industry in the {target_region} region, performing a detailed analysis.
+    Conduct an deep and exhaustive research on the {target_industry} industry in the {target_region} region, performing a detailed analysis.
     Break down the search into multiple specific queries, each targeting one or more of the following objectives:
 
     **Objective 1:** Detail the value chain: perform a comprehensive analysis
@@ -87,6 +90,9 @@ industry_research_task:
     **For each objective:**
     - Formulate, in english and portuguese, specific search queries that focus on the objective.
     - Perform the searches and collect results for further analysis.
+    - Use only trustworthy sources and provide proper citations.
+    - Use the most up-to-date information from 2024 and 2025.
+    - Prioritize brazilian sources written in portuguese.
 
   expected_output: >
     A deep research report with great detailed sections.
@@ -143,6 +149,9 @@ value_chain_analysis_task:
     - Describe the commercial relationships between players for each segment and step in the value chain.
     - Describe the business models used in those relationships.
     - Based on this detailed outline of relationships, identify the main bottlenecks and challenges in this value chain.
+    - Use only trustworthy sources and provide proper citations.
+    - Use the most up-to-date information from 2024 and 2025.
+    - Prioritize brazilian sources written in portuguese.
     
     Organize the information according to the specified report structure, using clear textual descriptions and supporting tables where appropriate.
 

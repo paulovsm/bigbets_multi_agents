@@ -14,7 +14,12 @@ class WhitespaceIdentificationCrew():
 	agents_config = 'config/agents.yaml'
 	tasks_config = 'config/tasks.yaml'
 	current_step = "4. Whitespaces"
+	
 	llm = LLM(
+		model=os.getenv('MODEL'),
+	)
+
+	search_llm = LLM(
 		model=os.getenv('SEARCH_MODEL'),
 	)
 
@@ -28,7 +33,8 @@ class WhitespaceIdentificationCrew():
 		return Agent(
 			config=self.agents_config['industry_expert_consultant'],
 			#tools=[SerperDevTool()], 
-			verbose=True
+			verbose=True,
+			llm=self.llm
 		)
 
 	@agent
@@ -38,14 +44,15 @@ class WhitespaceIdentificationCrew():
 			#tools=[WebsiteSearchTool()],
 			#allow_code_execution=True,
 			verbose=True,
-			llm=self.llm
+			llm=self.search_llm
 		)
 
 	@agent
 	def editorial_agent(self) -> Agent:
 		return Agent(
 			config=self.agents_config['editorial_agent'],
-			verbose=True
+			verbose=True,
+			llm=self.llm
 		)
 
 	#################################################### Tasks ####################################################

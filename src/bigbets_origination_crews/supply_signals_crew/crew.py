@@ -18,7 +18,12 @@ class SupplySignalsCrew():
 	agents_config = 'config/agents.yaml'
 	tasks_config = 'config/tasks.yaml'
 	current_step = "2. Supply Signals"
+	
 	llm = LLM(
+		model=os.getenv('MODEL'),
+	)
+
+	search_llm = LLM(
 		model=os.getenv('SEARCH_MODEL'),
 	)
 
@@ -29,7 +34,7 @@ class SupplySignalsCrew():
 			config=self.agents_config['retrieval_agent'],
 			tools=[SerperDevTool()], 
 			verbose=True,
-			llm=self.llm
+			llm=self.search_llm
 		)
 
 	@agent
@@ -38,7 +43,7 @@ class SupplySignalsCrew():
 			config=self.agents_config['analysis_agent'],
 			#tools=[WebsiteSearchTool()], 
 			verbose=True,
-   			llm=self.llm
+   			llm=self.search_llm
 		)	
 
 	@agent
@@ -46,7 +51,8 @@ class SupplySignalsCrew():
 		return Agent(
 			config=self.agents_config['synthesis_agent'],
 			#tools=[WebsiteSearchTool()], 
-			verbose=True
+			verbose=True,
+			llm=self.llm
 		)
 
 	@agent
@@ -55,7 +61,7 @@ class SupplySignalsCrew():
 			config=self.agents_config['trends_opportunities_agent'],
 			# tools=[WebsiteSearchTool()], 
 			verbose=True,
-			llm=self.llm
+			llm=self.search_llm
 		)
 
 	#################################################### Tasks ####################################################

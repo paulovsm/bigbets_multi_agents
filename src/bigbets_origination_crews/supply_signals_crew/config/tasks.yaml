@@ -30,8 +30,14 @@ market_players_analysis:
       2. Analyze the main products and services offered by each player.
       3. Evaluate the growth or decline in volume and revenue of these products.
 
-    [MARKET]
+    Rules:
+      - Use only trustworthy sources and provide proper citations.
+      - Use the most up-to-date information from 2024 and 2025.
+      - Prioritize brazilian sources written in portuguese.
+
+    <MARKET>
     {industry_key_players}
+    </MARKET>
   expected_output: >
     - **Report Title:**
       - Market Players Analysis
@@ -48,8 +54,14 @@ porter_six_forces_analysis:
       3. Identify threats from new entrants and substitute products.
       4. Assess the influence of regulations and other external forces.
 
-    [Value Chain Analysis]
+    Rules:
+      - Use only trustworthy sources and provide proper citations.
+      - Use the most up-to-date information from 2024 and 2025.
+      - Prioritize brazilian sources written in portuguese.
+
+    <Value Chain Analysis>
     {value_chain_analysis}
+    </Value Chain Analysis>
   expected_output: >
     - **Report Title:**
       - Porter's Six Forces Analysis
@@ -67,11 +79,18 @@ strategic_priorities_investments_analysis:
       2. Analyze recent and planned investments.
       3. Evaluate the alignment between strategic priorities and investment flows.
 
-    [INDUSTRY KEY PLAYERS]
-    {industry_key_players}
+    Rules:
+      - Use only trustworthy sources and provide proper citations.
+      - Use the most up-to-date information from 2024 and 2025.
+      - Prioritize brazilian sources written in portuguese.
 
-    [Value Chain Analysis]
+    <INDUSTRY KEY PLAYERS>
+    {industry_key_players}
+    </INDUSTRY KEY PLAYERS>
+
+    <Value Chain Analysis>
     {value_chain_analysis}
+    </Value Chain Analysis>
   expected_output: >
     - **Report Title:**
       - Strategic Priorities and Investments Analysis
@@ -89,8 +108,14 @@ global_vs_local_outlook_analysis:
       2. Analyze local trends in the value chain.
       3. Compare global and local trends to identify similarities and differences.
 
-    [Value Chain Analysis]
+    Rules:
+      - Use only trustworthy sources and provide proper citations.
+      - Use the most up-to-date information from 2024 and 2025.
+      - Prioritize brazilian sources written in portuguese.
+
+    <Value Chain Analysis>
     {value_chain_analysis}
+    </Value Chain Analysis>
   expected_output: >
     - **Report Title:**
       - Global vs Local Outlook Analysis
@@ -109,8 +134,9 @@ value_chain_current_oportunities_task:
         - Global vs Local Outlook Analysis
       2. Identify the main pressures, challenges, and opportunities.
 
-    [Value Chain Analysis]
+    <Value Chain Analysis>
     {value_chain_analysis}
+    </Value Chain Analysis>
   expected_output: >
     - Consolidated report on pressures, challenges, and opportunities.
     - Summary table of key findings.
@@ -127,8 +153,14 @@ ma_movements_analysis:
     Steps:
       1. Analyze the impact of major M&A movements on the value chain analysis.
 
-    [Value Chain Analysis]
+    Rules:
+      - Use only trustworthy sources and provide proper citations.
+      - Use the most up-to-date information from 2024 and 2025.
+      - Prioritize brazilian sources written in portuguese.
+
+    <[Value Chain Analysis>
     {value_chain_analysis}
+    </Value Chain Analysis>
   expected_output: >
     - **Report Title:**
       - M&A Movements Analysis
@@ -142,8 +174,14 @@ investment_vc_movements_analysis:
     Steps:
       1. Analyze the impact of major corporate venture capital investment movements on the value chain analysis.
 
-    [Value Chain Analysis]
+    Rules:
+      - Use only trustworthy sources and provide proper citations.
+      - Use the most up-to-date information from 2024 and 2025.
+      - Prioritize brazilian sources written in portuguese.
+
+    <Value Chain Analysis>
     {value_chain_analysis}
+    </Value Chain Analysis>
   expected_output: >
     - **Report Title:**
       - Investment and VC Movements Analysis
@@ -157,8 +195,14 @@ new_entrants_disruptors_analysis:
     Steps:
       1. Analyze the impact of new entrants and disruptors on the value chain analysis.
 
-    [Value Chain Analysis]
+    Rules:
+      - Use only trustworthy sources and provide proper citations.
+      - Use the most up-to-date information from 2024 and 2025.
+      - Prioritize brazilian sources written in portuguese.
+
+    <Value Chain Analysis>
     {value_chain_analysis}
+    </Value Chain Analysis>
   expected_output: >
     - **Report Title:**
       - New Entrants and Disruptors Analysis
@@ -190,8 +234,14 @@ future_trends_analysis:
     Steps:
       1. Analyze the potential impact of the main trends for the near future.
 
-    [Value Chain Analysis]
+    Rules:
+      - Use only trustworthy sources and provide proper citations.
+      - Use the most up-to-date information from 2024 and 2025.
+      - Prioritize brazilian sources written in portuguese.
+
+    <Value Chain Analysis>
     {value_chain_analysis}
+    </Value Chain Analysis>
   expected_output: >
     - **Report Title:**
       - Future Trends Analysis
@@ -205,8 +255,9 @@ regulatory_changes_analysis:
     Steps:
       1. Analyze the potential impact of regulatory changes.
 
-    [Value Chain Analysis]
+    <Value Chain Analysis>
     {value_chain_analysis}
+    </Value Chain Analysis>
   expected_output: >
     - **Report Title:**
       - Regulatory Changes Analysis
@@ -222,8 +273,14 @@ emerging_technologies_analysis:
     Steps:
       1. Analyze the potential impact of emerging technologies.
 
-    [Value Chain Analysis]
+    Rules:
+      - Use only trustworthy sources and provide proper citations.
+      - Use the most up-to-date information from 2024 and 2025.
+      - Prioritize brazilian sources written in portuguese.
+
+    <Value Chain Analysis>
     {value_chain_analysis}
+    </Value Chain Analysis>
   expected_output: >
     - **Report Title:**
       - Emerging Technologies Analysis
@@ -237,8 +294,14 @@ inspiring_startups_analysis:
     Steps:
       1. Analyze the potential impact of inspiring startups.
 
-    [Value Chain Analysis]
+    Rules:
+      - Use only trustworthy sources and provide proper citations.
+      - Use the most up-to-date information from 2024 and 2025.
+      - Prioritize brazilian sources written in portuguese.
+
+    <Value Chain Analysis>
     {value_chain_analysis}
+    </Value Chain Analysis>
   expected_output: >
     - **Report Title:**
       - Inspiring Startups Analysis
@@ -257,8 +320,9 @@ future_trends_task:
         - Inspiring Startups Analysis
       2. Identify the main trends for the sector.
 
-    [Value Chain Analysis]
+    <Value Chain Analysis>
     {value_chain_analysis}
+    </Value Chain Analysis>
   expected_output: >
     - Consolidated report on main trends.
     - Summary table of key findings.
@@ -275,8 +339,9 @@ current_future_opportunities_analysis:
     Steps:
       1. Map all the potential opportunities identified in the previous tasks.
 
-    [Value Chain Analysis]
+    <Value Chain Analysis>
     {value_chain_analysis}
+    </Value Chain Analysis>
   expected_output: >
     - List of major current and future opportunities.
     - Table of potential impact of the opportunities.
@@ -293,8 +358,9 @@ ongoing_changes_signals_analysis:
       1. List and describe all the signals from future trends already perceived in the market.
       2. Correlate these signals with future opportunities identified in the previous tasks.
 
-    [Value Chain Analysis]
+    <Value Chain Analysis>
     {value_chain_analysis}
+    </Value Chain Analysis>
   expected_output: >
     - List of signals of ongoing changes.
     - Correlation table between signals and future opportunities.
