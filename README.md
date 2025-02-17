@@ -1,54 +1,74 @@
-# BigbetsOriginationCrews Crew
+# BigBets Origination Assistant
 
-Welcome to the BigbetsOriginationCrews Crew project, powered by [crewAI](https://crewai.com). This template is designed to help you set up a multi-agent AI system with ease, leveraging the powerful and flexible framework provided by crewAI. Our goal is to enable your agents to collaborate effectively on complex tasks, maximizing their collective intelligence and capabilities.
+An AI-powered assistant for analyzing opportunities across different industries, powered by [crewAI](https://crewai.com).
 
 ## Installation
 
-Ensure you have Python >=3.10 <=3.13 installed on your system. This project uses [UV](https://docs.astral.sh/uv/) for dependency management and package handling, offering a seamless setup and execution experience.
+Requirements:
+- Python >=3.10 <=3.13
+- [UV](https://docs.astral.sh/uv/) for dependency management
 
-First, if you haven't already, install uv:
+### Initial Setup
 
+1. Install UV (if you haven't already):
 ```bash
 pip install uv
 ```
 
-Next, navigate to your project directory and install the dependencies:
-
-(Optional) Lock the dependencies and install them by using the CLI command:
+2. Install dependencies:
 ```bash
 crewai install
 ```
-### Customizing
 
-**Add your `OPENAI_API_KEY` into the `.env` file**
-
-- Modify `src/bigbets_origination_crews/config/agents.yaml` to define your agents
-- Modify `src/bigbets_origination_crews/config/tasks.yaml` to define your tasks
-- Modify `src/bigbets_origination_crews/crew.py` to add your own logic, tools and specific args
-- Modify `src/bigbets_origination_crews/main.py` to add custom inputs for your agents and tasks
-
-## Running the Project
-
-To kickstart your crew of AI agents and begin task execution, run this from the root folder of your project:
-
-```bash
-$ crewai run
+3. Configure your credentials in the `.env` file:
+```
+OPENAI_API_KEY=your_key_here
 ```
 
-This command initializes the bigbets-origination-crews Crew, assembling the agents and assigning them tasks as defined in your configuration.
+## Running the Application
 
-This example, unmodified, will run the create a `report.md` file with the output of a research on LLMs in the root folder.
+There are two ways to run the application:
 
-## Understanding Your Crew
+### 1. Basic Local Mode
+```bash
+./startup.sh
+```
 
-The bigbets-origination-crews Crew is composed of multiple AI agents, each with unique roles, goals, and tools. These agents collaborate on a series of tasks, defined in `config/tasks.yaml`, leveraging their collective skills to achieve complex objectives. The `config/agents.yaml` file outlines the capabilities and configurations of each agent in your crew.
+### 2. Ngrok Mode (Remote Access)
+```bash
+./startup_ngrok.sh
+```
+
+The Ngrok script will provide a URL that can be used to access the application remotely.
+
+## Using the Assistant
+
+1. Access the application through your browser (local or Ngrok URL)
+
+2. Specify the industry you want to analyze. You can include details such as:
+   - Region of interest (default: Brazil)
+   - Number of main players to analyze (default: 10)
+   - Whether you want to provide feedback during the process
+   - Which steps to execute (Value Chain, Supply Signals, Demand Signals, Whitespace)
+
+3. The assistant will:
+   - Generate a unique ID for your analysis
+   - Execute the selected steps
+   - Save results in the `output/[Analysis_ID]` folder
+
+4. You can interact with existing knowledge bases using a previous analysis ID
+
+## Analysis Structure
+
+The complete process includes four main steps:
+
+1. **Value Chain Analysis**: Industry value chain analysis
+2. **Supply Signals**: Supply-side signals analysis
+3. **Demand Signals**: Demand-side signals analysis
+4. **Whitespace Identification**: Opportunity identification
 
 ## Support
 
-For support, questions, or feedback regarding the BigbetsOriginationCrews Crew or crewAI.
-- Visit our [documentation](https://docs.crewai.com)
-- Reach out to us through our [GitHub repository](https://github.com/joaomdmoura/crewai)
-- [Join our Discord](https://discord.com/invite/X4JWnZnxPb)
-- [Chat with our docs](https://chatg.pt/DWjSBZn)
-
-Let's create wonders together with the power and simplicity of crewAI.
+- [crewAI Documentation](https://docs.crewai.com)
+- [crewAI GitHub](https://github.com/joaomdmoura/crewai)
+- [Discord](https://discord.com/invite/X4JWnZnxPb)

@@ -16,6 +16,9 @@ pn.extension(design="native")
 # from langtrace_python_sdk import langtrace
 # langtrace.init(api_key = '12fc0dc8b514242abad8889e39fb94a5e100c73b9c3110c6a0cb56ff0cb14305')
 
+# import agentops
+# agentops.init('bc7659b4-917c-4e66-8399-0bef84acbe9f')
+
 from crewai.agents.agent_builder.base_agent_executor_mixin import CrewAgentExecutorMixin
 from bigbets_origination_crews.value_chain_crew.crew import ResearchCrew
 from bigbets_origination_crews.supply_signals_crew.crew import SupplySignalsCrew

@@ -55,10 +55,13 @@ def run_whitespace_interaction_flow(output_dir, input_params, chat_interface, jo
         # Create a knowledge source
         whitespace_content_source = CrewDoclingSource(
             file_paths=file_paths,
+            chunk_size=4000,
+            chunk_overlap=200
         )
         
         llm = LLM(
-            model="gpt-4o-mini", 
+            #model="gpt-4o-mini", 
+            model=os.getenv('MODEL'),
             temperature=0
         )
         
@@ -75,7 +78,7 @@ def run_whitespace_interaction_flow(output_dir, input_params, chat_interface, jo
             """,
             verbose=True,
             allow_delegation=False,
-            llm="gpt-4",
+            llm=llm,
         )
         
         task = Task(
@@ -83,6 +86,7 @@ def run_whitespace_interaction_flow(output_dir, input_params, chat_interface, jo
                 Using the information extracted from the previous researches, answer the user query about whitespace.
                 Think about the best way to structure the answer and provide the most relevant information.
                 Think step by step to provide a well-structured answer.
+                Always create footnote references to the sources of the information.
                 
                 The user query is: {user_query}
             """,
@@ -114,3 +118,4 @@ def run_whitespace_interaction_flow(output_dir, input_params, chat_interface, jo
         print(error_message)
         chat_interface.send(f"Error starting interaction: {e}", user="Assistant", respond=False)
         shared_state.current_crew = None
+        shared_state.is_capturing_input = False
